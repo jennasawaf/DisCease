@@ -27,7 +27,7 @@ Our project is a genetic algorithm that optimizes the rules to minimize the deat
   - Disease may be transmitted from a neighbouring infected agent with a probability multiplied by infection rate.
   - If diseased, an agent can recover with a probability of (1 - immunization rate) within 5 seconds or get immunized by a probability multiplied by immunization rate or die.
   - For each neighbouring agent S of an agent A, A can move away or closer to S based on S’ health condition with a unique and fixed probability.
-  - For example, an agent might move away from an infected agent with probability 0.7, it might move closer to a healthy agent with probability 0.4 and away from an immunized person with 0.6 probability.
+    - For example, an agent might move away from an infected agent with probability 0.7, it might move closer to a healthy agent with probability 0.4 and away from an immunized person with 0.6 probability.
   - The direction and magnitude of an agent’s next move will be an average of all of its direction vectors.
   - An agent’s genetic information will include an array of 3 probability numbers, one for each medical condition of a neighbour. A positive probability is attraction, negative probability is repulsion.
   - The emergent phenomenon we’re hoping to find is:
