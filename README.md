@@ -40,10 +40,14 @@ When you get immunized, you do it for your own safety. But the side effect of ge
 ## Importance of our idea.
 This topic is important because it will keep the general population informed on viruses that are spreading. For example, during 2020 the spread of the Corona Virus has been something people are terrified of. Applying complex systems thinking to dealing with viruses would help understanding the nature of epidemics and estimate the parameters required to eradicate the disease. This will also help people understand that taking a vaccine is not only helpful to the individual, but also beneficial for the people they interact with. This might also help discover potential new rules to follow to eradicate certain diseases.
 
-##Bibliography
-[1] http://rocs.hu-berlin.de/D3/herd/\
-[2] https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3154209/\
-[3] https://bmcpublichealth.biomedcentral.com/articles/10.1186/s12889-018-5709-x\
-[4]https://towardsdatascience.com/modelling-the-coronavirus-epidemic-spreading-in-a-city-with-python-babd14d82fa2 (all about corona)\
+## Bibliography
+[1] http://rocs.hu-berlin.de/D3/herd/
+
+[2] https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3154209/
+
+[3] https://bmcpublichealth.biomedcentral.com/articles/10.1186/s12889-018-5709-x
+
+[4]https://towardsdatascience.com/modelling-the-coronavirus-epidemic-spreading-in-a-city-with-python-babd14d82fa2 (all about corona)
+
 [5] The PCA algorithm.
 
