@@ -1,3 +1,18 @@
+const state = {
+  diseased: {
+    color: 'red',
+  },
+  healthy: {
+    color: 'white',
+  },
+  immune: {
+    color: 'green',
+  },
+  zombie: {
+    color: 'black',
+  },
+};
+
 class Agent {
 
   constructor() {
@@ -7,6 +22,11 @@ class Agent {
     this.location = createVector(width / 2, height / 2);
     this.velocity = createVector(0.0, 0.0);
     this.acceleration = createVector(0.0, 0.0);
+
+    this.healthState = state.healthy;
+
+    this.neighbours = []
+
   }
 
   setVelocity(velocity) {
@@ -21,6 +41,7 @@ class Agent {
 
   update() {
     this.checkBounds();
+    this.checkContaminated();
     this.applyForce(this.getNextMove());
     this.setVelocity(p5.Vector.add(this.velocity, this.acceleration));
     this.location.add(this.velocity);
@@ -28,9 +49,9 @@ class Agent {
   }
 
   display() {
+    fill(color(this.healthState.color));
     ellipse(this.location.x, this.location.y, 10, 10);
   }
-
 
   getNextMove() {
     return p5.Vector.random2D();
@@ -43,7 +64,15 @@ class Agent {
     if (this.location.y > height || this.location.y < 0) {
       this.velocity.y = this.velocity.y * -1;
     }
+  }
 
+  // TODO: This is where you check if agent touched another agent
+  checkContaminated() {
+
+  }
+
+  setHealthState(healthState) {
+    this.healthState = healthState;
   }
 
 }
