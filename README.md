@@ -19,10 +19,10 @@ Our project is a genetic algorithm that optimizes the rules to minimize the deat
   - Can move at a variable speed.
   - Never bumps into anything in the environment.
   - Can see other agents within a range.
-### Internal state:
-  - One variable to store the agent’s current health status.
-  - Number of times diseased.
-  - Number of episodes survived.
+  - Internal state:
+    - One variable to store the agent’s current health status.
+    - Number of times diseased.
+    - Number of episodes survived.
   - Can identify whether an agent seen is [diseased, healthy, immunized] with a certain probability.
   - Disease may be transmitted from a neighbouring infected agent with a probability multiplied by infection rate.
   - If diseased, an agent can recover with a probability of (1 - immunization rate) within 5 seconds or get immunized by a probability multiplied by immunization rate or die.
