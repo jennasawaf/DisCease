@@ -31,8 +31,8 @@ Our project is a genetic algorithm that optimizes the rules to minimize the deat
   - The direction and magnitude of an agent’s next move will be an average of all of its direction vectors.
   - An agent’s genetic information will include an array of 3 probability numbers, one for each medical condition of a neighbour. A positive probability is attraction, negative probability is repulsion.
   - The emergent phenomenon we’re hoping to find is:
-  - All infected agents will form a cluster and all healthy/immunized will form another cluster.
-  - If we introduce an immunocompromised sub-population, we would love to see this group guarded by a layer of immunized agents.
+      - All infected agents will form a cluster and all healthy/immunized will form another cluster.
+      - If we introduce an immunocompromised sub-population, we would love to see this group guarded by a layer of immunized agents.
 
 ## Purpose of our idea
 Our project will be able to show us the impact of spreading diseases based on changeable parameters such as population, rate of disease growth, rate of immunization, etc. 

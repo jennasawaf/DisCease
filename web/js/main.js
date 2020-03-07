@@ -1,12 +1,13 @@
-let agents;
+let swarmManager;
 
 function setup() {
   createCanvas(640, 480);
-  agents = [new Agent()];
+  swarmManager = new SwarmManager();
+  swarmManager.setup();
 }
 
 function draw() {
   background(230);
-  agents.forEach(agent => agent.update());
-  agents.forEach(agent => agent.display());
+  swarmManager.updateAll();
+  swarmManager.displayAll();
 }

@@ -23,9 +23,20 @@ class Agent {
     this.velocity = createVector(0.0, 0.0);
     this.acceleration = createVector(0.0, 0.0);
 
-    this.healthState = state.healthy;
+    this.neighbours = [];
 
-    this.neighbours = []
+    // Internal State Variables:
+    this.healthState = state.healthy;
+    this.numDiseased = 0;
+    this.numEpisodesSurvived = 0;
+
+    // Genetic Information:
+    this.deflection = {
+      diseased: -0.5,
+      healthy: 0.0,
+      immune: 0.5,
+      zombie: -0.9,
+    };
 
   }
 
