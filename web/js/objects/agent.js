@@ -128,6 +128,10 @@ class Agent {
 
     let totalContagion = 0.0;
 
+    if(this.healthState == dead || this.healthState == zombie) {
+    	return;
+    }
+
     for (let neighbour of neighbours){
       if (neighbour.healthState in [state.diseased, state.zombie]) {
         totalContagion += this.contagionRate;
@@ -140,6 +144,12 @@ class Agent {
       } else{
         this.healthState = state.diseased;
       }
+    }
+
+    if(this.healthState = state.diseased) {
+    	if(random() <= this.zombificationRate) {
+    		this.healthState = state.zombie;
+    	}
     }
   }
 
