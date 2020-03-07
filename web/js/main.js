@@ -6,8 +6,8 @@ function setup() {
   createCanvas(640, 480);
   frameRate(fps);
 
-  swarmManager = new SwarmManager(10);
   episodeManager = new EpisodeManager(3, 60);
+  swarmManager = new SwarmManager(10, 0.1, 0.01);
 }
 
 function draw() {
@@ -19,7 +19,7 @@ function draw() {
     swarmManager.initEpisode();
   }
 
-  swarmManager.updateAll();
+  swarmManager.updateAll(episodeManager);
   background(230);
   swarmManager.displayAll();
 }

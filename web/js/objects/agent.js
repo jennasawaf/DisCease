@@ -11,11 +11,14 @@ const state = {
   zombie: {
     color: 'black',
   },
+  dead: {
+    color: 'yellow',
+  }
 };
 
 class Agent {
 
-  constructor() {
+  constructor(deflections) {
     this.mass = 1;
     this.maxVelocity = 3;
 
@@ -23,7 +26,12 @@ class Agent {
     this.velocity = createVector(0.0, 0.0);
     this.acceleration = createVector(0.0, 0.0);
 
-    this.neighbours = [];
+    // Hyper-parameters
+    this.diseaseIdentificationProbability = 0.8;
+    this.contagionRate = 0.1;
+    this.visualRange = 10;
+    this.zombificationRate = 0.01;
+    this.deathRate = 0.3;
 
     // Internal State Variables:
     this.healthState = state.healthy;
@@ -31,13 +39,20 @@ class Agent {
     this.numEpisodesSurvived = 0;
 
     // Genetic Information:
-    this.deflection = {
-      diseased: -0.5,
-      healthy: 0.0,
-      immune: 0.5,
-      zombie: -0.9,
-    };
+    if (deflections != null)
+      this.deflection = deflections;
+    else
+      this.deflection = {
+        diseased: random(-1, 1),
+        healthy: random(-1, 1),
+        immune: random(-1, 1),
+        zombie: random(-1, 1),
+      };
 
+  }
+
+  getScore(){
+    return this.numEpisodesSurvived / this.numDiseased;
   }
 
   setVelocity(velocity) {
@@ -50,13 +65,15 @@ class Agent {
     this.acceleration.add(acceleration);
   }
 
-  update() {
+  update(allAgents) {
+    let neighbours = this.getObservableNeighbours(allAgents);
+
     this.checkBounds();
-    this.checkContaminated();
-    this.applyForce(this.getNextMove());
-    this.setVelocity(p5.Vector.add(this.velocity, this.acceleration));
-    this.location.add(this.velocity);
-    this.acceleration.mult(0);
+    this.checkContaminated(neighbours);
+    this.applyForce(this.getNextMove(neighbours));
+
+    this._updateLocation();
+
   }
 
   display() {
@@ -64,8 +81,24 @@ class Agent {
     ellipse(this.location.x, this.location.y, 10, 10);
   }
 
-  getNextMove() {
-    return p5.Vector.random2D();
+  _updateLocation(){
+    this.setVelocity(p5.Vector.add(this.velocity, this.acceleration));
+    this.location.add(this.velocity);
+    this.acceleration.mult(0);
+  }
+
+  getNextMove(neighbours){
+    let nextMove = createVector(0.0, 0.0);
+
+    for (let neighbour of neighbours){
+      let observedHealth = state.healthy;
+      if (random() <= this.diseaseIdentificationProbability) {
+        observedHealth = neighbour.healthState;
+      }
+      // TODO: nextMove += (distance vector from this.location to neighbour.location) * this.deflection(neighbour.healthState)
+    }
+
+    return nextMove;
   }
 
   checkBounds() {
@@ -77,13 +110,37 @@ class Agent {
     }
   }
 
-  // TODO: This is where you check if agent touched another agent
-  checkContaminated() {
+  getObservableNeighbours(allAgents) {
+    // TODO: Implement get neighbours.
+    /*
+    I think performing a euclidean distance from this.location to all other agents will be computationally challenging.
+    So, lets draw a square box of size 2*this.visualRange around the agent and find agents whose location fall into this box.
+    This should be a circle instead of a square, but circle will add more computational complexity.
+     */
+    for (let agent of allAgents) {
 
+    }
   }
 
-  setHealthState(healthState) {
-    this.healthState = healthState;
+  checkContaminated(neighbours) {
+    // TODO: Ignore if this agent is dead or zombified.
+    // TODO: If the agent is diseased, make it a zombie with probability: this.zombificationRate
+
+    let totalContagion = 0.0;
+
+    for (let neighbour of neighbours){
+      if (neighbour.healthState in [state.diseased, state.zombie]) {
+        totalContagion += this.contagionRate;
+      }
+    }
+
+    if (random() <= totalContagion) {
+      if (random() <= this.deathRate){
+        this.healthState = state.dead;
+      } else{
+        this.healthState = state.diseased;
+      }
+    }
   }
 
 }
