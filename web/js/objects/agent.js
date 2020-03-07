@@ -17,7 +17,7 @@ class Agent {
 
   constructor() {
     this.mass = 1;
-    this.maxVelocity = 10;
+    this.maxVelocity = 3;
 
     this.location = createVector(width / 2, height / 2);
     this.velocity = createVector(0.0, 0.0);

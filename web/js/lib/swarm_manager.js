@@ -1,17 +1,24 @@
 class SwarmManager {
-  constructor() {
+  constructor(numAgents=10) {
     this.agents = [];
+    this.numAgents = numAgents;
   }
 
-  setup() {
-    // Get agent genes from file.
+  initEpisode() {
+    // Create all the agents.
 
-    for (let i = 0; i < 10; i++) {
+    let genes = this.getGenes();
+
+    for (let i = 0; i < this.numAgents; i++) {
       let agent = new Agent();
       // Update agent location to uniform random location.
 
-      this.agents.add(agent);
+      this.agents.push(agent);
     }
+  }
+
+  finishEpisode() {
+    // Store genes to json file.
   }
 
   updateAll() {
@@ -20,5 +27,10 @@ class SwarmManager {
 
   displayAll() {
     this.agents.forEach(agent => agent.display());
+  }
+
+  getGenes(){
+    // Get agent genes from json.
+    //alert(genes);
   }
 }
