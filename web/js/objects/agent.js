@@ -36,10 +36,11 @@ class Agent {
 
     // Hyper-parameters
     this.diseaseIdentificationProbability = 0.8;
-    this.contagionRate = 0.1;
+    this.contagionRate = 0.01;
     this.visualRange = 40;
     this.zombificationRate = 0.0001;
-    this.deathRate = 0.3;
+    this.deathRate = 0.001;
+    this.immunizationRate = 0.005;
 
     // Internal State Variables:
     this.healthState = state.healthy;
@@ -55,6 +56,7 @@ class Agent {
         'healthy': random(-1, 1),
         'immune': random(-1, 1),
         'zombie': random(-1, 1),
+        'dead': 0,
       };
 
   }
@@ -86,6 +88,8 @@ class Agent {
   }
 
   display() {
+    if (this.healthState === state.dead)
+      return;
     fill(color(stateDetails[this.healthState]['color']));
     ellipse(this.location.x, this.location.y, 10, 10);
   }
@@ -160,11 +164,26 @@ class Agent {
 
   checkContaminated(neighbours) {
 
-    if (this.healthState === state.dead || this.healthState === state.zombie) {
+    if (this.healthState === state.dead) {
       return;
     }
 
+    if (this.healthState === state.zombie) {
+      if (random() <= this.deathRate) {
+        this.healthState = state.dead;
+        return;
+      }
+    }
+
     if (this.healthState === state.diseased) {
+      if (random() <= this.deathRate) {
+        this.healthState = state.dead;
+        return;
+      }
+      if (random() <= this.immunizationRate) {
+        this.healthState = state.immune;
+        return;
+      }
       if (random() <= this.zombificationRate) {
         this.healthState = state.zombie;
         return;
@@ -174,17 +193,14 @@ class Agent {
     let totalContagion = 0.0;
 
     for (let neighbour of neighbours) {
-      if (neighbour.healthState in [state.diseased, state.zombie]) {
+      if (neighbour.healthState === state.diseased || neighbour.healthState === state.zombie) {
         totalContagion += this.contagionRate;
       }
     }
 
     if (random() <= totalContagion) {
-      if (random() <= this.deathRate) {
-        this.healthState = state.dead;
-      } else {
-        this.healthState = state.diseased;
-      }
+      this.healthState = state.diseased;
+      this.numDiseased += 1;
     }
 
   }
