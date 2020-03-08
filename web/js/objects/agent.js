@@ -135,8 +135,6 @@ class Agent {
   }
 
   checkContaminated(neighbours) {
-    // TODO: Ignore if this agent is dead or zombified.
-    // TODO: If the agent is diseased, make it a zombie with probability: this.zombificationRate
 
     if(this.healthState === state.dead || this.healthState === state.zombie) {
     	return;
