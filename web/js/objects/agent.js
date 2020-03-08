@@ -118,7 +118,7 @@ class Agent {
     This should be a circle instead of a square, but circle will add more computational complexity.
      */
 
-    var neighbors = [];
+    let neighbors = [];
 
     for (let agent of allAgents) {
     	if(this.isInVisualRange(this.location.x, this.location.y, agent)) {
@@ -138,11 +138,18 @@ class Agent {
     // TODO: Ignore if this agent is dead or zombified.
     // TODO: If the agent is diseased, make it a zombie with probability: this.zombificationRate
 
-    let totalContagion = 0.0;
-
-    if(this.healthState == state.dead || this.healthState == state.zombie) {
+    if(this.healthState === state.dead || this.healthState === state.zombie) {
     	return;
     }
+
+    if(this.healthState === state.diseased) {
+      if(random() <= this.zombificationRate) {
+        this.healthState = state.zombie;
+        return;
+      }
+    }
+
+    let totalContagion = 0.0;
 
     for (let neighbour of neighbours){
       if (neighbour.healthState in [state.diseased, state.zombie]) {
@@ -158,11 +165,6 @@ class Agent {
       }
     }
 
-    if(this.healthState = state.diseased) {
-    	if(random() <= this.zombificationRate) {
-    		this.healthState = state.zombie;
-    	}
-    }
   }
 
 }
