@@ -121,7 +121,7 @@ class Agent {
     var neighbors = [];
 
     for (let agent of allAgents) {
-    	if(isInVisualRange(this.location.x, this.location.y, agent)) {
+    	if(this.isInVisualRange(this.location.x, this.location.y, agent)) {
     		neighbors.push(agent);
     	}
     }
@@ -140,7 +140,7 @@ class Agent {
 
     let totalContagion = 0.0;
 
-    if(this.healthState == dead || this.healthState == zombie) {
+    if(this.healthState == state.dead || this.healthState == state.zombie) {
     	return;
     }
 
