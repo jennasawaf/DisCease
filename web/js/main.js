@@ -1,13 +1,13 @@
 let swarmManager;
 let episodeManager;
-let fps = 10;
+let fps = 30;
 
 function setup() {
-  createCanvas(640, 480);
+  createCanvas(500, 500);
   frameRate(fps);
 
-  episodeManager = new EpisodeManager(3, 60);
-  swarmManager = new SwarmManager(10, 0.1, 0.01);
+  episodeManager = new EpisodeManager(3, 10);
+  swarmManager = new SwarmManager(50, 0.1, 0.0001);
 }
 
 function draw() {

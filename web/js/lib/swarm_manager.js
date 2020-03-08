@@ -14,6 +14,8 @@ class SwarmManager {
       let agent = new Agent();
       // TODO: Give the new agent genes from roulette wheel (high prob to best gene (best = max of agent.getScore()))
       // TODO: Perform a perturbation of this.mutation on the genes.
+      agent.location = createVector(Math.random() * width, Math.random() * height);
+      agent.healthState = state.healthy;
       agent.deflection = this.getGenes(1)[0];
       this.agents.push(agent);
     }
@@ -48,16 +50,13 @@ class SwarmManager {
     let genes = [];
     for (let i=0; i< num; i++){
       genes.push({
-        diseased: this.getRandomProbability(),
-        healthy: this.getRandomProbability(),
-        immune: this.getRandomProbability(),
-        zombie: this.getRandomProbability(),
+        'diseased': random(-1, 1),
+        'healthy': random(-1, 1),
+        'immune': random(-1, 1),
+        'zombie': random(-1, 1),
       });
     }
     return genes;
   }
 
-  getRandomProbability(){
-    return random(-1, 1);
-  }
 }
