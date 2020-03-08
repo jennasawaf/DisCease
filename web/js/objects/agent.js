@@ -22,7 +22,7 @@ class Agent {
     this.mass = 1;
     this.maxVelocity = 3;
 
-    this.location = createVector(width / 2, height / 2);
+    this.location = createVector(Math.random() * width, Math.random() * height);
     this.velocity = createVector(0.0, 0.0);
     this.acceleration = createVector(0.0, 0.0);
 
@@ -88,14 +88,15 @@ class Agent {
   }
 
   getNextMove(neighbours){
-    let nextMove = createVector(0.0, 0.0);
-
+    
+  	var nextMove = createVector(Math.random(), Math.random());
     for (let neighbour of neighbours){
-      let observedHealth = state.healthy;
-      if (random() <= this.diseaseIdentificationProbability) {
-        observedHealth = neighbour.healthState;
-      }
-      nextMove.add(Math.abs(neighbour.location.x - x) * this.deflection(neighbour.healthState), Math.abs(neighbour.location.y - y) * this.deflection(neighbour.healthState));
+    	nextMove = createVector(0.0, 0.0);
+      	let observedHealth = state.healthy;
+      	if (random() <= this.diseaseIdentificationProbability) {
+        	observedHealth = neighbour.healthState;
+      	}
+      	nextMove.add(Math.abs(neighbour.location.x - this.location.x) * this.deflection[neighbour.healthState], Math.abs(neighbour.location.y - this.location.y) * this.deflection[neighbour.healthState]);
       // TODO: nextMove += (distance vector from this.location to neighbour.location) * this.deflection(neighbour.healthState)
     }
 

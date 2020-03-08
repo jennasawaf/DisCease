@@ -1,5 +1,5 @@
 class SwarmManager {
-  constructor(numAgents = 10, mutation=0.01, diseaseIntroductionRate=0.01) {
+  constructor(numAgents = 10, mutation=0.01, diseaseIntroductionRate=0.001) {
     this.agents = [];
     this.numAgents = numAgents;
     this.diseaseIntroductionRate = diseaseIntroductionRate;
@@ -37,7 +37,7 @@ class SwarmManager {
   }
 
   introduceDisease(episodeManager) {
-    if (episodeManager.timeStep === 0 || random() >= this.diseaseIntroductionRate){
+    if (episodeManager.timeStep === 0 || random() <= this.diseaseIntroductionRate){
       // TODO: Introduce disease at a random location or to a random agent.
       random(this.agents).healthState = state.diseased;
     }
