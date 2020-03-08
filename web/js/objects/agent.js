@@ -95,6 +95,7 @@ class Agent {
       if (random() <= this.diseaseIdentificationProbability) {
         observedHealth = neighbour.healthState;
       }
+      nextMove.add(Math.abs(neighbour.location.x - x) * this.deflection(neighbour.healthState), Math.abs(neighbour.location.y - y) * this.deflection(neighbour.healthState));
       // TODO: nextMove += (distance vector from this.location to neighbour.location) * this.deflection(neighbour.healthState)
     }
 
