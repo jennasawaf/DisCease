@@ -20,7 +20,7 @@ const stateDetails = {
     'color': 'black',
   },
   'dead': {
-    'color': 'yellow',
+    'color': 200,
   }
 };
 
@@ -28,7 +28,7 @@ class Agent {
 
   constructor(deflections) {
     this.mass = 1;
-    this.maxVelocity = 3;
+    this.maxVelocity = 2;
 
     this.location = createVector(Math.random() * width, Math.random() * height);
     this.velocity = createVector(0.0, 0.0);
@@ -36,11 +36,12 @@ class Agent {
 
     // Hyper-parameters
     this.diseaseIdentificationProbability = 0.8;
-    this.contagionRate = 0.01;
-    this.visualRange = 40;
+    this.contagionRate = 0.015;
+    this.visualRange = 20;
     this.zombificationRate = 0.0001;
-    this.deathRate = 0.001;
-    this.immunizationRate = 0.005;
+    this.deathRate = 0.002;
+    this.immunizationRate = 0.01;
+    this.immunizationLossRate = 0.0005;
 
     // Internal State Variables:
     this.healthState = state.healthy;
@@ -88,8 +89,6 @@ class Agent {
   }
 
   display() {
-    if (this.healthState === state.dead)
-      return;
     fill(color(stateDetails[this.healthState]['color']));
     ellipse(this.location.x, this.location.y, 10, 10);
   }
@@ -102,6 +101,9 @@ class Agent {
   }
 
   getNextMove(neighbours) {
+    if (neighbours.length === 0)
+      return p5.Vector.random2D();
+
     var nextMove = createVector(0, 0);
 
     for (let neighbour of neighbours) {
@@ -166,6 +168,13 @@ class Agent {
 
     if (this.healthState === state.dead) {
       return;
+    }
+
+    if (this.healthState === state.immune) {
+      if (random() <= this.immunizationLossRate) {
+        this.healthState = state.healthy;
+        return;
+      }
     }
 
     if (this.healthState === state.zombie) {
