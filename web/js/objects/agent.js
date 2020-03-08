@@ -117,9 +117,21 @@ class Agent {
     So, lets draw a square box of size 2*this.visualRange around the agent and find agents whose location fall into this box.
     This should be a circle instead of a square, but circle will add more computational complexity.
      */
-    for (let agent of allAgents) {
 
+    var neighbors = [];
+
+    for (let agent of allAgents) {
+    	if(isInVisualRange(this.location.x, this.location.y, agent)) {
+    		neighbors.push(agent);
+    	}
     }
+
+    return neighbors;
+  }
+
+  //checking if in same range
+  isInVisualRange(x, y, agent) {
+  	return (Math.abs(agent.location.x - x) >= this.visualRange && Math.abs(agent.location.y - y) >= this.visualRange);
   }
 
   checkContaminated(neighbours) {
