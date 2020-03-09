@@ -1,10 +1,20 @@
+var _swarmManager;
+
 class SwarmManager {
-  constructor(numAgents = 10, mutation=0.01, diseaseIntroductionRate=0.001) {
+  constructor(numAgents = 10, mutation = 0.01, diseaseIntroductionRate = 0.001) {
     this.agents = [];
     this.numAgents = numAgents;
     this.diseaseIntroductionRate = diseaseIntroductionRate;
     // TODO: Load the stored genes from JSON file at web/js/data/genes.json
     // TODO: Create all agents from the loaded genes.
+  }
+
+  static getInstance(numAgents = 10, mutation = 0.01, diseaseIntroductionRate = 0.001) {
+    if (_swarmManager == null) {
+      return new SwarmManager(numAgents, mutation, diseaseIntroductionRate);
+    } else {
+      return _swarmManager;
+    }
   }
 
   initEpisode() {
@@ -43,7 +53,7 @@ class SwarmManager {
   }
 
   introduceDisease(episodeManager) {
-    if (episodeManager.timeStep === 0 || random() <= this.diseaseIntroductionRate){
+    if (episodeManager.timeStep === 0 || random() <= this.diseaseIntroductionRate) {
       // TODO: Introduce disease at a random location or to a random agent.
       random(this.agents).healthState = state.diseased;
     }
