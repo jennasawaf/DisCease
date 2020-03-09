@@ -19,6 +19,7 @@ class SwarmManager {
 
     for (let i = 0; i < this.numAgents; i++) {
       this.agents[i].location = createVector(random(10, width - 10), random(10, height - 10));
+      this.agents[i].acceleration = createVector(random(-width, width), random(-height, height));
       this.agents[i].healthState = state.healthy;
     }
 
@@ -34,7 +35,7 @@ class SwarmManager {
   updateAll(episodeManager) {
     this.introduceDisease(episodeManager);
     this.agents.forEach(agent => agent.update(this.agents));
-    // this.agents.forEach(agent => agent.applyForce(this.getVectorToCenter(agent)))
+    // this.agents.forEach(agent => agent.applyForce(agent.getVectorToCenter()))
   }
 
   displayAll() {
@@ -46,11 +47,6 @@ class SwarmManager {
       // TODO: Introduce disease at a random location or to a random agent.
       random(this.agents).healthState = state.diseased;
     }
-  }
-
-  getVectorToCenter(agent) {
-    let center = createVector(width/2, height/2);
-    return p5.Vector.sub(center, agent.location).normalize().mult(0.001);
   }
 
 }

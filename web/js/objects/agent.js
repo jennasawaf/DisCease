@@ -29,71 +29,37 @@ class Agent {
   constructor(deflections) {
     this.mass = 1;
     this.maxVelocity = 2;
+    this.drag = 0.005;
 
     this.location = createVector(random(10, width - 10), random(10, height - 10));
     this.velocity = createVector(0.0, 0.0);
-    this.acceleration = createVector(random(0, width), random(0, height));
+    this.acceleration = createVector(random(-width, width), random(-height, height));
 
     // Hyper-parameters
     this.diseaseIdentificationProbability = 0.8;
-    this.contagionRate = 0.007;
+    this.contagionRate = 0.01;
     this.visualRange = 20;
     this.zombificationRate = 0.0001;
-    this.deathRate = 0.002;
-    this.immunizationRate = 0.001;
-    this.immunizationLossRate = 0.0005;
+    this.deathRate = 0.0015;
+    this.immunizationRate = 0.0015;
+    this.immunizationLossRate = 0.001;
 
     // Internal State Variables:
     this.healthState = state.healthy;
     this.numDiseased = 0;
     this.numEpisodesSurvived = 0;
+    this.numDiseaseSpread = 1;  // Number of times this guy spread its disease to others.
 
     // Genetic Information:
     if (deflections != null)
       this.deflections = deflections;
     else
-      this.deflections = {
-        'diseased': {
-          'diseased': this.getRandomSingleDeflection(),
-          'healthy': this.getRandomSingleDeflection(),
-          'immune': this.getRandomSingleDeflection(),
-          'zombie': this.getRandomSingleDeflection(),
-          'dead': 0,
-        },
-        'healthy': {
-          'diseased': this.getRandomSingleDeflection(),
-          'healthy': this.getRandomSingleDeflection(),
-          'immune': this.getRandomSingleDeflection(),
-          'zombie': this.getRandomSingleDeflection(),
-          'dead': 0,
-        },
-        'immune': {
-          'diseased': this.getRandomSingleDeflection(),
-          'healthy': this.getRandomSingleDeflection(),
-          'immune': this.getRandomSingleDeflection(),
-          'zombie': this.getRandomSingleDeflection(),
-          'dead': 0,
-        },
-        'zombie': {
-          'diseased': this.getRandomSingleDeflection(),
-          'healthy': this.getRandomSingleDeflection(),
-          'immune': this.getRandomSingleDeflection(),
-          'zombie': this.getRandomSingleDeflection(),
-          'dead': 0,
-        },
-        'dead': {
-          'diseased': 0,
-          'healthy': 0,
-          'immune': 0,
-          'zombie': 0,
-          'dead': 0,
-        },
-      };
+      this.deflections = this.getRandomDeflections();
 
   }
 
   getScore() {
-    return this.numEpisodesSurvived / this.numDiseased;
+    return this.numEpisodesSurvived / this.numDiseased / this.numDiseaseSpread;
   }
 
   setVelocity(velocity) {
@@ -125,13 +91,15 @@ class Agent {
   _updateLocation() {
     this.checkBounds();
     this.setVelocity(p5.Vector.add(this.velocity, this.acceleration));
+    this.velocity.mult(1 - this.drag);
     this.location.add(this.velocity);
     this.acceleration.mult(0);
   }
 
   getNextMove(neighbours) {
-    if (neighbours.length === 0)
-      return p5.Vector.random2D();
+    if (neighbours.length === 1) {
+      return this.getVectorToCenter().normalize().mult(0.01);
+    }
 
     var nextMove = createVector(0, 0);
 
@@ -152,10 +120,10 @@ class Agent {
 
   checkBounds() {
     let padding = 5;
-    if (this.location.x > width - padding){
+    if (this.location.x > width - padding) {
       this.velocity.x = -Math.abs(this.velocity.x);
       this.acceleration.x = 0;
-    } else if (this.location.x < padding){
+    } else if (this.location.x < padding) {
       this.velocity.x = Math.abs(this.velocity.x);
       this.acceleration.x = 0;
     }
@@ -199,7 +167,7 @@ class Agent {
     if (this.healthState === state.healthy) {
       if (px <= this.immunizationRate) {
         this.healthState = state.immune;
-        return
+        return;
       }
     }
 
@@ -210,19 +178,19 @@ class Agent {
     if (this.healthState === state.immune) {
       if (px <= this.immunizationLossRate) {
         this.healthState = state.healthy;
-        return;
       }
+      return;
     }
 
     if (this.healthState === state.zombie) {
       if (px <= this.deathRate) {
         this.healthState = state.dead;
-        return;
       }
+      return;
     }
 
     if (this.healthState === state.diseased) {
-      if (px <= this.deathRate) {
+      if (px/this.numDiseaseSpread <= this.deathRate) {
         this.healthState = state.dead;
         return;
       }
@@ -234,6 +202,7 @@ class Agent {
         this.healthState = state.zombie;
         return;
       }
+      return;
     }
 
     let totalContagion = 0.0;
@@ -247,12 +216,98 @@ class Agent {
     if (px <= totalContagion) {
       this.healthState = state.diseased;
       this.numDiseased += 1;
+      neighbours.forEach(neighbour => neighbour.numDiseaseSpread++);
     }
 
   }
 
-  getRandomSingleDeflection(){
+  getVectorToCenter() {
+    let center = createVector(width/2, height/2);
+    return p5.Vector.sub(center, this.location);
+  }
+
+  getRandomSingleDeflection() {
     return random(-0.1, 0.1);
+  }
+
+  getRandomDeflections() {
+    return {
+      'diseased': {
+      'diseased': this.getRandomSingleDeflection(),
+        'healthy': this.getRandomSingleDeflection(),
+        'immune': this.getRandomSingleDeflection(),
+        'zombie': this.getRandomSingleDeflection(),
+        'dead': 0,
+    },
+      'healthy': {
+      'diseased': this.getRandomSingleDeflection(),
+        'healthy': this.getRandomSingleDeflection(),
+        'immune': this.getRandomSingleDeflection(),
+        'zombie': this.getRandomSingleDeflection(),
+        'dead': 0,
+    },
+      'immune': {
+      'diseased': this.getRandomSingleDeflection(),
+        'healthy': this.getRandomSingleDeflection(),
+        'immune': this.getRandomSingleDeflection(),
+        'zombie': this.getRandomSingleDeflection(),
+        'dead': 0,
+    },
+      'zombie': {
+      'diseased': 0,
+        'healthy': 1,
+        'immune': 1,
+        'zombie': 0.5,
+        'dead': 0,
+    },
+      'dead': {
+      'diseased': 0,
+        'healthy': 0,
+        'immune': 0,
+        'zombie': 0,
+        'dead': 0,
+    },
+    }
+  }
+
+  getPerfectDeflections() {
+    return {
+      'diseased': {
+        'diseased': 0.5, // this.getRandomSingleDeflection(),
+        'healthy': -0.5, //this.getRandomSingleDeflection(),
+        'immune': -0.5, // this.getRandomSingleDeflection(),
+        'zombie': 0.5, // this.getRandomSingleDeflection(),
+        'dead': 0,
+      },
+      'healthy': {
+        'diseased': -0.5, // this.getRandomSingleDeflection(),
+        'healthy': 0.5, // this.getRandomSingleDeflection(),
+        'immune': 0.5, // this.getRandomSingleDeflection(),
+        'zombie': -0.5, // this.getRandomSingleDeflection(),
+        'dead': 0,
+      },
+      'immune': {
+        'diseased': -0.5, // this.getRandomSingleDeflection(),
+        'healthy': 0.5, // this.getRandomSingleDeflection(),
+        'immune': 0.5, // this.getRandomSingleDeflection(),
+        'zombie': -0.5, // this.getRandomSingleDeflection(),
+        'dead': 0,
+      },
+      'zombie': {
+        'diseased': 0,
+        'healthy': 1,
+        'immune': 1,
+        'zombie': 0.5,
+        'dead': 0,
+      },
+      'dead': {
+        'diseased': 0,
+        'healthy': 0,
+        'immune': 0,
+        'zombie': 0,
+        'dead': 0,
+      },
+    }
   }
 
 }
