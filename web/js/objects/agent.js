@@ -30,17 +30,17 @@ class Agent {
     this.mass = 1;
     this.maxVelocity = 2;
 
-    this.location = createVector(Math.random() * width, Math.random() * height);
+    this.location = createVector(random(10, width - 10), random(10, height - 10));
     this.velocity = createVector(0.0, 0.0);
     this.acceleration = createVector(random(0, width), random(0, height));
 
     // Hyper-parameters
     this.diseaseIdentificationProbability = 0.8;
-    this.contagionRate = 0.015;
+    this.contagionRate = 0.007;
     this.visualRange = 20;
     this.zombificationRate = 0.0001;
     this.deathRate = 0.002;
-    this.immunizationRate = 0.01;
+    this.immunizationRate = 0.001;
     this.immunizationLossRate = 0.0005;
 
     // Internal State Variables:
@@ -53,10 +53,10 @@ class Agent {
       this.deflection = deflections;
     else
       this.deflection = {
-        'diseased': random(-1, 1),
-        'healthy': random(-1, 1),
-        'immune': random(-1, 1),
-        'zombie': random(-1, 1),
+        'diseased': this.getRandomSingleDeflection(),
+        'healthy': this.getRandomSingleDeflection(),
+        'immune': this.getRandomSingleDeflection(),
+        'zombie': this.getRandomSingleDeflection(),
         'dead': 0,
       };
 
@@ -112,10 +112,9 @@ class Agent {
       if (random() <= this.diseaseIdentificationProbability) {
         observedHealth = neighbour.healthState;
       }
-      nextMove.add(createVector(
-        Math.abs(neighbour.location.x - this.location.x),
-        Math.abs(neighbour.location.y - this.location.y)
-      ).mult(this.deflection[neighbour.healthState]));
+      let pointer = p5.Vector.sub(neighbour.location, this.location);
+      pointer.mult(this.deflection[neighbour.healthState]);
+      nextMove.add(pointer);
       nextMove.normalize();
     }
 
@@ -166,6 +165,12 @@ class Agent {
 
   checkContaminated(neighbours) {
 
+    if (this.healthState === state.healthy) {
+      if (random() <= this.immunizationRate) {
+        this.healthState = state.immune;
+      }
+    }
+
     if (this.healthState === state.dead) {
       return;
     }
@@ -212,6 +217,10 @@ class Agent {
       this.numDiseased += 1;
     }
 
+  }
+
+  getRandomSingleDeflection(){
+    return random(-0.1, 0.1);
   }
 
 }

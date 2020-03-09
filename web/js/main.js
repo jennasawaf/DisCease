@@ -7,7 +7,7 @@ function setup() {
   frameRate(fps);
 
   episodeManager = new EpisodeManager(3, 100);
-  swarmManager = new SwarmManager(100, 0.1, 0.015);
+  swarmManager = new SwarmManager(100, 0.1, 0.01);
 }
 
 function draw() {
