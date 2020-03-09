@@ -50,14 +50,44 @@ class Agent {
 
     // Genetic Information:
     if (deflections != null)
-      this.deflection = deflections;
+      this.deflections = deflections;
     else
-      this.deflection = {
-        'diseased': this.getRandomSingleDeflection(),
-        'healthy': this.getRandomSingleDeflection(),
-        'immune': this.getRandomSingleDeflection(),
-        'zombie': this.getRandomSingleDeflection(),
-        'dead': 0,
+      this.deflections = {
+        'diseased': {
+          'diseased': this.getRandomSingleDeflection(),
+          'healthy': this.getRandomSingleDeflection(),
+          'immune': this.getRandomSingleDeflection(),
+          'zombie': this.getRandomSingleDeflection(),
+          'dead': 0,
+        },
+        'healthy': {
+          'diseased': this.getRandomSingleDeflection(),
+          'healthy': this.getRandomSingleDeflection(),
+          'immune': this.getRandomSingleDeflection(),
+          'zombie': this.getRandomSingleDeflection(),
+          'dead': 0,
+        },
+        'immune': {
+          'diseased': this.getRandomSingleDeflection(),
+          'healthy': this.getRandomSingleDeflection(),
+          'immune': this.getRandomSingleDeflection(),
+          'zombie': this.getRandomSingleDeflection(),
+          'dead': 0,
+        },
+        'zombie': {
+          'diseased': this.getRandomSingleDeflection(),
+          'healthy': this.getRandomSingleDeflection(),
+          'immune': this.getRandomSingleDeflection(),
+          'zombie': this.getRandomSingleDeflection(),
+          'dead': 0,
+        },
+        'dead': {
+          'diseased': 0,
+          'healthy': 0,
+          'immune': 0,
+          'zombie': 0,
+          'dead': 0,
+        },
       };
 
   }
@@ -81,7 +111,6 @@ class Agent {
     let neighbours = this.getObservableNeighbours(allAgents);
 
     this.checkContaminated(neighbours);
-    // this.applyForce(p5.Vector.random2D());
     this.applyForce(this.getNextMove(neighbours).mult(0.1));
 
     this._updateLocation();
@@ -113,7 +142,7 @@ class Agent {
         observedHealth = neighbour.healthState;
       }
       let pointer = p5.Vector.sub(neighbour.location, this.location);
-      pointer.mult(this.deflection[neighbour.healthState]);
+      pointer.mult(this.deflections[this.healthState][neighbour.healthState]);
       nextMove.add(pointer);
       nextMove.normalize();
     }
@@ -165,9 +194,12 @@ class Agent {
 
   checkContaminated(neighbours) {
 
+    let px = random();
+
     if (this.healthState === state.healthy) {
-      if (random() <= this.immunizationRate) {
+      if (px <= this.immunizationRate) {
         this.healthState = state.immune;
+        return
       }
     }
 
@@ -176,29 +208,29 @@ class Agent {
     }
 
     if (this.healthState === state.immune) {
-      if (random() <= this.immunizationLossRate) {
+      if (px <= this.immunizationLossRate) {
         this.healthState = state.healthy;
         return;
       }
     }
 
     if (this.healthState === state.zombie) {
-      if (random() <= this.deathRate) {
+      if (px <= this.deathRate) {
         this.healthState = state.dead;
         return;
       }
     }
 
     if (this.healthState === state.diseased) {
-      if (random() <= this.deathRate) {
+      if (px <= this.deathRate) {
         this.healthState = state.dead;
         return;
       }
-      if (random() <= this.immunizationRate) {
+      if (px <= this.immunizationRate) {
         this.healthState = state.immune;
         return;
       }
-      if (random() <= this.zombificationRate) {
+      if (px <= this.zombificationRate) {
         this.healthState = state.zombie;
         return;
       }
@@ -212,7 +244,7 @@ class Agent {
       }
     }
 
-    if (random() <= totalContagion) {
+    if (px <= totalContagion) {
       this.healthState = state.diseased;
       this.numDiseased += 1;
     }
