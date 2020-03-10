@@ -1,9 +1,10 @@
 class Stats {
-  constructor(){
-    console.log(swarmManager.agents.length);
+  constructor() {
+
   }
+
   update() {
-    $("#message_p").html("Episode: "+episodeManager.episodeNumber);
+    $("#message_p").html("Episode: " + episodeManager.episodeNumber);
   }
 }
 

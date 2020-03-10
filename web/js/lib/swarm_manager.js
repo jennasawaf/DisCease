@@ -1,20 +1,11 @@
-var _swarmManager;
-
 class SwarmManager {
   constructor(numAgents = 10, mutation = 0.01, diseaseIntroductionRate = 0.001) {
     this.agents = [];
     this.numAgents = numAgents;
     this.diseaseIntroductionRate = diseaseIntroductionRate;
+    this.forceOfAttraction = 0.002;
     // TODO: Load the stored genes from JSON file at web/js/data/genes.json
     // TODO: Create all agents from the loaded genes.
-  }
-
-  static getInstance(numAgents = 10, mutation = 0.01, diseaseIntroductionRate = 0.001) {
-    if (_swarmManager == null) {
-      return new SwarmManager(numAgents, mutation, diseaseIntroductionRate);
-    } else {
-      return _swarmManager;
-    }
   }
 
   initEpisode() {
@@ -45,7 +36,8 @@ class SwarmManager {
   updateAll(episodeManager) {
     this.introduceDisease(episodeManager);
     this.agents.forEach(agent => agent.update(this.agents));
-    // this.agents.forEach(agent => agent.applyForce(agent.getVectorToCenter()))
+    let groupCenters = this.getGroupCenters();
+    this.agents.forEach(agent => agent.applyForce(this.getGroupCenterVector(agent, groupCenters[agent.healthState])))
   }
 
   displayAll() {
@@ -54,9 +46,29 @@ class SwarmManager {
 
   introduceDisease(episodeManager) {
     if (episodeManager.timeStep === 0 || random() <= this.diseaseIntroductionRate) {
-      // TODO: Introduce disease at a random location or to a random agent.
-      random(this.agents).healthState = state.diseased;
+      let randomAgent = random(this.agents);
+      if (randomAgent.healthState !== state.dead)
+        randomAgent.healthState = state.diseased;
+      else this.introduceDisease(episodeManager);
     }
+  }
+
+  getGroupCenters() {
+    return {
+      'diseased': this.getGroupCenter(state.diseased),
+      'healthy': this.getGroupCenter(state.healthy),
+      'immune': this.getGroupCenter(state.immune),
+      'zombie': this.getGroupCenter(state.zombie),
+      'dead': this.getGroupCenter(state.dead),
+    }
+  }
+
+  getGroupCenter(group) {
+    return createVector(width / 2, height / 2); // This is a global center. Must be a group's center. group = agents of same health state
+  }
+
+  getGroupCenterVector(agent, center) {
+    return p5.Vector.sub(center, agent.location).normalize().mult(this.forceOfAttraction); // Vector from agent to center.
   }
 
 }

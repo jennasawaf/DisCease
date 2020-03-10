@@ -19,8 +19,8 @@ class Agent {
 
     // Hyper-parameters
     this.diseaseIdentificationProbability = 0.8;
-    this.contagionRate = 0.01;
-    this.visualRange = 20;
+    this.contagionRate = 0.005;
+    this.visualRange = 30;
     this.zombificationRate = 0.0001;
     this.deathRate = 0.0015;
     this.immunizationRate = 0.0015;
@@ -36,7 +36,7 @@ class Agent {
     if (deflections != null)
       this.deflections = deflections;
     else
-      this.deflections = this.getRandomDeflections();
+      this.deflections = this.getPerfectDeflections();  // this.getRandomDeflections();
 
   }
 
@@ -79,20 +79,22 @@ class Agent {
   }
 
   getNextMove(neighbours) {
-    if (neighbours.length === 1) {
-      return this.getVectorToCenter().normalize().mult(0.01);
-    }
+
+    if (neighbours.length === 1)
+      return createVector(0, 0);
 
     let nextMove = createVector(0, 0);
 
     for (let neighbour of neighbours) {
       nextMove = createVector(0.0, 0.0);
+
       let observedHealth = state.healthy;
-      if (random() <= this.diseaseIdentificationProbability) {
+      if (random() <= this.diseaseIdentificationProbability)
         observedHealth = neighbour.healthState;
-      }
+
       let pointer = p5.Vector.sub(neighbour.location, this.location);
       pointer.mult(this.deflections[this.healthState][neighbour.healthState]);
+
       nextMove.add(pointer);
       nextMove.normalize();
     }
@@ -119,12 +121,6 @@ class Agent {
   }
 
   getObservableNeighbours(allAgents) {
-    // TODO: Implement get neighbours.
-    /*
-    I think performing a euclidean distance from this.location to all other agents will be computationally challenging.
-    So, lets draw a square box of size 2*this.visualRange around the agent and find agents whose location fall into this box.
-    This should be a circle instead of a square, but circle will add more computational complexity.
-     */
 
     let neighbors = [];
 
@@ -203,13 +199,18 @@ class Agent {
 
   }
 
-  _getColor(){
-    switch (this.healthState){
-      case state.healthy: return 'white';
-      case state.diseased: return 'red';
-      case state.immune: return 'green';
-      case state.zombie: return 'black';
-      case state.dead: return 200;
+  _getColor() {
+    switch (this.healthState) {
+      case state.healthy:
+        return 'white';
+      case state.diseased:
+        return 'red';
+      case state.immune:
+        return 'green';
+      case state.zombie:
+        return 'black';
+      case state.dead:
+        return 200;
     }
   }
 
