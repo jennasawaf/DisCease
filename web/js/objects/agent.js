@@ -67,6 +67,7 @@ class Agent {
 
   display() {
     fill(color(this._getColor()));
+    stroke(200);
     ellipse(this.location.x, this.location.y, 10, 10);
   }
 

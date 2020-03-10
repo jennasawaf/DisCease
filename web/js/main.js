@@ -11,7 +11,7 @@ function setup() {
   canvas.parent('sketch-holder');
 
   episodeManager = new EpisodeManager(3, 300);
-  swarmManager = new SwarmManager(20, 0.1, 0.01);
+  swarmManager = new SwarmManager(50, 0.1, 0.01);
 
   stats = new Stats();
 }
