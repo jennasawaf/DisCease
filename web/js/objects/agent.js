@@ -18,7 +18,7 @@ class Agent {
     this.acceleration = createVector(random(-width, width), random(-height, height));
 
     // Hyper-parameters
-    this.diseaseIdentificationProbability = 1;
+    this.diseaseIdentificationProbability = 0.8;
     this.contagionRate = 0.005;
     this.visualRange = 30;
     this.zombificationRate = 0.002;

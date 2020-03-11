@@ -10,6 +10,9 @@ class SwarmManager {
 
   initEpisode() {
 
+    this.agents.sort((agent_1, agent_2) => agent_1.getScore() - agent_2.getScore());
+    // TODO: Pick half of best
+
     // Add new agents into the mix
     for (let i = this.agents.length; i < this.numAgents; i++) {
       let agent = new Agent();
