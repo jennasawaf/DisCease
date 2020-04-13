@@ -17,8 +17,8 @@ class ParameterInjector {
         visualRange: 30,
         zombificationRate: 0.0001,
         deathRate: 0,
-        immunizationRate: 0.0005,
-        immunizationLossRate: 0.0001,
+        recoveryRate: 0.0005,
+        recoveryLossRate: 0.0001,
         socialDistanceLength: 10,
       },
       uiParams: {

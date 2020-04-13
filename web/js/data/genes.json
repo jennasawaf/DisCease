@@ -4,7 +4,7 @@
     "deflection": {
       "diseased": -0.5,
       "healthy": 0.0,
-      "immune": 0.5,
+      "recovered": 0.5,
       "zombie": -0.9
     }
   }

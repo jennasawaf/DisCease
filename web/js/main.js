@@ -27,14 +27,17 @@ class Game {
   draw(sketch){
     this.episodeManager.update();
 
+    if (this.episodeManager.isNewTimeStep()) {
+      this.stats.perTimeStep();
+    }
+
     if (this.episodeManager.isNewEpisode()) {
-      this.uiManager.updateStatsTable();
+      this.stats.perEpisode();
       this.swarmManager.finishEpisode();
       this.swarmManager.initEpisode();
     }
 
     this.swarmManager.updateAll(this.episodeManager);
-    this.stats.update();
 
     sketch.background(230);
     this.swarmManager.displayAll(sketch);

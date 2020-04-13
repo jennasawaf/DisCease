@@ -1,7 +1,7 @@
 const state = {
   diseased: 'diseased',
   healthy: 'healthy',
-  immune: 'immune',
+  recovered: 'recovered',
   zombie: 'zombie',
   dead: 'dead',
 };
@@ -165,8 +165,8 @@ class Agent {
     let px = this.game.p5.random();
 
     if (this.healthState === state.healthy) {
-      if (px <= this.swarm.immunizationRate) {
-        this.healthState = state.immune;
+      if (px <= this.swarm.recoveryRate) {
+        this.healthState = state.recovered;
         return;
       }
     }
@@ -174,8 +174,8 @@ class Agent {
     if (this.healthState === state.dead)
       return;
 
-    if (this.healthState === state.immune) {
-      if (px <= this.swarm.immunizationLossRate)
+    if (this.healthState === state.recovered) {
+      if (px <= this.swarm.recoveryLossRate)
         this.healthState = state.healthy;
       return;
     }
@@ -191,8 +191,8 @@ class Agent {
         this.healthState = state.dead;
         return;
       }
-      if (px <= this.swarm.immunizationRate) {
-        this.healthState = state.immune;
+      if (px <= this.swarm.recoveryRate) {
+        this.healthState = state.recovered;
         return;
       }
       if (px <= this.swarm.zombificationRate) {
@@ -224,7 +224,7 @@ class Agent {
         return 'white';
       case state.diseased:
         return 'red';
-      case state.immune:
+      case state.recovered:
         return 'green';
       case state.zombie:
         return 'black';
@@ -247,35 +247,35 @@ class Agent {
       'diseased': {
         'diseased': this.getRandomSingleDeflection(),
         'healthy': this.getRandomSingleDeflection(),
-        'immune': this.getRandomSingleDeflection(),
+        'recovered': this.getRandomSingleDeflection(),
         'zombie': this.getRandomSingleDeflection(),
         'dead': 0,
       },
       'healthy': {
         'diseased': this.getRandomSingleDeflection(),
         'healthy': this.getRandomSingleDeflection(),
-        'immune': this.getRandomSingleDeflection(),
+        'recovered': this.getRandomSingleDeflection(),
         'zombie': this.getRandomSingleDeflection(),
         'dead': 0,
       },
-      'immune': {
+      'recovered': {
         'diseased': this.getRandomSingleDeflection(),
         'healthy': this.getRandomSingleDeflection(),
-        'immune': this.getRandomSingleDeflection(),
+        'recovered': this.getRandomSingleDeflection(),
         'zombie': this.getRandomSingleDeflection(),
         'dead': 0,
       },
       'zombie': {
         'diseased': 0,
         'healthy': 1,
-        'immune': 1,
+        'recovered': 1,
         'zombie': 0.5,
         'dead': 0,
       },
       'dead': {
         'diseased': 0,
         'healthy': 0,
-        'immune': 0,
+        'recovered': 0,
         'zombie': 0,
         'dead': 0,
       },
@@ -287,35 +287,35 @@ class Agent {
       'diseased': {
         'diseased': 0.5, // this.getRandomSingleDeflection(),
         'healthy': -0.5, //this.getRandomSingleDeflection(),
-        'immune': -0.5, // this.getRandomSingleDeflection(),
+        'recovered': -0.5, // this.getRandomSingleDeflection(),
         'zombie': 0.5, // this.getRandomSingleDeflection(),
         'dead': 0,
       },
       'healthy': {
         'diseased': -0.5, // this.getRandomSingleDeflection(),
         'healthy': 0.5, // this.getRandomSingleDeflection(),
-        'immune': 0.5, // this.getRandomSingleDeflection(),
+        'recovered': 0.5, // this.getRandomSingleDeflection(),
         'zombie': -0.5, // this.getRandomSingleDeflection(),
         'dead': 0,
       },
-      'immune': {
+      'recovered': {
         'diseased': -0.5, // this.getRandomSingleDeflection(),
         'healthy': 0.5, // this.getRandomSingleDeflection(),
-        'immune': 0.5, // this.getRandomSingleDeflection(),
+        'recovered': 0.5, // this.getRandomSingleDeflection(),
         'zombie': -0.5, // this.getRandomSingleDeflection(),
         'dead': 0,
       },
       'zombie': {
         'diseased': 0,
         'healthy': 1,
-        'immune': 1,
+        'recovered': 1,
         'zombie': 0.5,
         'dead': 0,
       },
       'dead': {
         'diseased': 0,
         'healthy': 0,
-        'immune': 0,
+        'recovered': 0,
         'zombie': 0,
         'dead': 0,
       },

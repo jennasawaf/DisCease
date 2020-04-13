@@ -24,6 +24,10 @@ class EpisodeManager {
     return this.timeStep === 1 && this.frame === 1;
   }
 
+  isNewTimeStep() {
+    return this.frame % this.framesPerTimeStep === 0;
+  }
+
   update() {
     this.frame++;
     if (this.frame % this.framesPerTimeStep === 0) { // New time step starts

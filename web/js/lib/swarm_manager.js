@@ -18,10 +18,10 @@ class SwarmManager {
     this.diseaseIntroductionRate = this.params.diseaseIntroductionRate;
     this.forceOfAttraction = this.params.forceOfAttraction;
     this.contagionRate = this.params.contagionRate;
-    this.immunizationRate = this.params.immunizationRate;
+    this.recoveryRate = this.params.recoveryRate;
     this.zombificationRate = this.params.zombificationRate;
     this.diseaseIdentificationProbability = this.params.diseaseIdentificationProbability;
-    this.immunizationLossRate = this.params.immunizationLossRate;
+    this.recoveryLossRate = this.params.recoveryLossRate;
     this.visualRange = this.params.visualRange;
     this.boxPadding = this.game.paramsInjector.params.uiParams.boxPadding;
   }
@@ -121,7 +121,7 @@ class SwarmManager {
     return {
       'diseased': this.getGroupCenter(state.diseased),
       'healthy': this.getGroupCenter(state.healthy),
-      'immune': this.getGroupCenter(state.immune),
+      'recovered': this.getGroupCenter(state.recovered),
       'zombie': this.getGroupCenter(state.zombie),
       'dead': this.getGroupCenter(state.dead),
     }
@@ -135,47 +135,5 @@ class SwarmManager {
   getGroupCenterVector(agent, center) {
     return p5.Vector.sub(center, agent.location).normalize().mult(this.forceOfAttraction); // Vector from agent to center.
   }
-
-  reset(introductionRate) {
-    this.diseaseIntroductionRate = introductionRate;
-  }
-
-  getTotalDiseased() {
-    let total = 0;
-
-    this.agents.forEach(agent => {
-      if (agent.healthState == state.diseased)
-        total++;
-    });
-
-    return total;
-  }
-
-  getTotalImmunized() {
-
-    let total = 0;
-
-    this.agents.forEach(agent => {
-      if (agent.healthState == state.immune)
-        total++;
-    });
-
-    return total;
-  }
-
-  getTotalHealthy() {
-
-    let total = 0;
-
-    this.agents.forEach(agent => {
-      if (agent.healthState == state.healthy)
-        total++;
-    });
-
-    return total;
-
-  }
-
-
 
 }

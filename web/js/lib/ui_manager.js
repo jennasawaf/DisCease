@@ -28,29 +28,32 @@ class UIManager {
 
     // TODO: Update slider to the values in params.
 
-    this.contagionSlider.onchange = function() {
+    this.contagionSlider.onchange = function () {
       params.params.swarmParams.contagionRate = self.contagionSlider.value;
       params.updateAll();
     };
 
-    this.recoverySlider.onchange = function() {
-      params.params.swarmParams.immunizationRate = self.recoverySlider.value;
+    this.recoverySlider.onchange = function () {
+      params.params.swarmParams.recoveryRate = self.recoverySlider.value;
       params.updateAll();
     };
 
-    this.deathSlider.onchange = function() {
+    this.deathSlider.onchange = function () {
       params.params.swarmParams.deathRate = self.deathSlider.value;
       params.updateAll();
     };
   }
 
-  updateStatsTable() {
-    let episodeNumber = this.game.episodeManager.episode;
-    let totalDiseased = this.game.swarmManager.getgetTotalDiseased;
-    let totalImmunized = this.game.swarmManager.getTotalImmunized;
-    let totalHealthy = this.game.swarmManager,getTotalHealthy;
-    //let totalSurvived=
+  updateTimeStepInfo() {
+    // TODO: Update the values in the time-series graph of current episode.
+  }
 
+  updateEpisodeInfo() {
+    let episodeNumber = this.game.episodeManager.episode;
+
+    $("#message_p").html("Episode: " + episodeNumber);
+
+    // TODO: Update stats table here. The population values are in this.game.stats.currentPopulation
     // this.addRow(episodeNumber, totalDiseased, totalSurvived, totalImmunized, 0);
   }
 
@@ -69,4 +72,5 @@ class UIManager {
     totalHealthyColumn.innerHTML = totalHealthy;
     totalSurvivedColumn.innerHTML = totalSurvived;
   }
+
 }
