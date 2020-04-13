@@ -16,22 +16,13 @@ class Agent {
     this.drag = 0.005;
     this.diameter = 10;
 
-    let side = this.game.paramsInjector.params.uiParams.side;
-    this.location = this.game.p5.createVector(this.game.p5.random(-side, side), this.game.p5.random(-side, side));
-    this.velocity = this.game.p5.createVector(0.0, 0.0);
-    this.acceleration = this.game.p5.createVector(this.game.p5.random(-side, side), this.game.p5.random(-side, side)); // p5.Vector(p5.random(-width, width), random(-height, height));
-
     // Internal State Variables:
-    this.healthState = state.healthy;
-    this.numDiseased = 1;
+    this.initState();
+    this.velocity = this.game.p5.createVector(0.0, 0.0);
     this.numEpisodesSurvived = 1;
-    this.numDiseaseSpread = 1;  // Number of times this guy spread its disease to others.
 
     // Genetic Information:
-    if (deflections != null)
-      this.deflections = deflections;
-    else
-      this.deflections = this.getRandomDeflections();
+    this.deflections = (deflections != null) ? deflections : this.getPerfectDeflections();
 
   }
 
@@ -40,8 +31,9 @@ class Agent {
     this.location = this.game.p5.createVector(this.game.p5.random(10, side - 10), this.game.p5.random(10, side - 10));
     this.acceleration = this.game.p5.createVector(this.game.p5.random(-side, side), this.game.p5.random(-side, side));
     this.healthState = state.healthy;
+
     this.numDiseased = 1;
-    this.numDiseaseSpread = 1;
+    this.numDiseaseSpread = 1;  // Number of times this guy spread its disease to others.
   }
 
   getScore() {
@@ -165,10 +157,10 @@ class Agent {
     let px = this.game.p5.random();
 
     if (this.healthState === state.healthy) {
-      if (px <= this.swarm.recoveryRate) {
+      /*if (px <= this.swarm.recoveryRate) {
         this.healthState = state.recovered;
         return;
-      }
+      }*/
     }
 
     if (this.healthState === state.dead)
@@ -187,17 +179,14 @@ class Agent {
     }
 
     if (this.healthState === state.diseased) {
-      if (px * this.numDiseaseSpread / this.numDiseaseSpread <= this.swarm.deathRate) {
-        this.healthState = state.dead;
-        return;
-      }
       if (px <= this.swarm.recoveryRate) {
         this.healthState = state.recovered;
-        return;
+      }
+      if (px <= this.swarm.deathRate) {
+        this.healthState = state.dead;
       }
       if (px <= this.swarm.zombificationRate) {
         this.healthState = state.zombie;
-        return;
       }
       return;
     }

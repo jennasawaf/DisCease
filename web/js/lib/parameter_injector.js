@@ -5,21 +5,21 @@ class ParameterInjector {
     this.params = {
       episodeParams: {
         framesPerTimeStep: 3,
-        timeStepsPerEpisode: 50,
+        timeStepsPerEpisode: 500,
       },
       swarmParams: {
         numAgents: 150,
         mutation: 0.1,
-        diseaseIntroductionRate: 0.01,
+        diseaseIntroductionRate: 0.001,
         forceOfAttraction: 0.002,  // global force
         diseaseIdentificationProbability: 1,
         contagionRate: 0.1,
         visualRange: 30,
-        zombificationRate: 0.0001,
-        deathRate: 0,
-        recoveryRate: 0.0005,
-        recoveryLossRate: 0.0001,
-        socialDistanceLength: 10,
+        zombificationRate: 0, //0.0001,
+        deathRate: 0.0015,
+        recoveryRate: 0.002,
+        recoveryLossRate: 0.001,
+        socialDistanceLength: 0,
       },
       uiParams: {
         side: 300,
