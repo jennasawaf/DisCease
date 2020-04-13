@@ -45,14 +45,15 @@ class UIManager {
   }
 
   updateTimeStepInfo() {
-    // TODO: Update the values in the time-series graph of current episode.
+
+    let populations = this.game.stats.currentPopulation;
+    let episodeNumber = this.game.episodeManager.episode;
+
+    // TODO: Put these population numbers into a graph.
+    $("#message_p").html(`Episode: ${episodeNumber}\nHealthy: ${populations.healthy}, dis: ${populations.diseased}, dead: ${populations.dead}, recovered: ${populations.recovered}`);
   }
 
   updateEpisodeInfo() {
-    let episodeNumber = this.game.episodeManager.episode;
-
-    $("#message_p").html("Episode: " + episodeNumber);
-
     // TODO: Update stats table here. The population values are in this.game.stats.currentPopulation
     // this.addRow(episodeNumber, totalDiseased, totalSurvived, totalImmunized, 0);
   }
