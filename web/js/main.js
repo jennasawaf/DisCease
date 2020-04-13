@@ -28,6 +28,7 @@ class Game {
     this.episodeManager.update();
 
     if (this.episodeManager.isNewEpisode()) {
+      this.uiManager.updateStatsTable();
       this.swarmManager.finishEpisode();
       this.swarmManager.initEpisode();
     }

@@ -6,6 +6,8 @@ class UIManager {
     this.sketch = null;
 
     this.registerSliders();
+    this.episodeStatsTable = document.getElementById('episodeStats');
+
   }
 
   setupSketch() {
@@ -42,4 +44,29 @@ class UIManager {
     };
   }
 
+  updateStatsTable() {
+    let episodeNumber = this.game.episodeManager.episode;
+    let totalDiseased = this.game.swarmManager.getgetTotalDiseased;
+    let totalImmunized = this.game.swarmManager.getTotalImmunized;
+    let totalHealthy = this.game.swarmManager,getTotalHealthy;
+    //let totalSurvived=
+
+    // this.addRow(episodeNumber, totalDiseased, totalSurvived, totalImmunized, 0);
+  }
+
+  addRow(episodeNumber, totalDiseased, totalSurvived, totalImmunized, totalHealthy) {
+    let row = this.episodeStatsTable.insertRow();
+
+    let episodeColumn = row.insertCell(0);
+    let totalDiseasedColumn = row.insertCell(1);
+    let totalImmunizedColumn = row.insertCell(2);
+    let totalHealthyColumn = row.insertCell(3);
+    let totalSurvivedColumn = row.insertCell(4);
+
+    episode.innerHTML = episodeNumber;
+    totalDiseasedColumn.innerHTML = totalDiseased;
+    totalImmunizedColumn.innerHTML = totalImmunized;
+    totalHealthyColumn.innerHTML = totalHealthy;
+    totalSurvivedColumn.innerHTML = totalSurvived;
+  }
 }

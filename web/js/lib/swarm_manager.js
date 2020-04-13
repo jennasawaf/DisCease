@@ -140,4 +140,42 @@ class SwarmManager {
     this.diseaseIntroductionRate = introductionRate;
   }
 
+  getTotalDiseased() {
+    let total = 0;
+
+    this.agents.forEach(agent => {
+      if (agent.healthState == state.diseased)
+        total++;
+    })
+
+    return total;
+  }
+
+  getTotalImmunized() {
+
+    let total = 0;
+
+    this.agents.forEach(agent => {
+      if (agent.healthState == state.immune)
+        total++;
+    })
+    
+    return total;
+  }
+
+  getTotalHealthy() {
+
+    let total = 0;
+
+    this.agents.forEach(agent => {
+      if (agent.healthState == state.healthy)
+        total++;
+    })
+    
+    return total;
+
+  }
+
+  
+
 }
