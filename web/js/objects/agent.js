@@ -31,7 +31,7 @@ class Agent {
     if (deflections != null)
       this.deflections = deflections;
     else
-      this.deflections = this.getPerfectDeflections();
+      this.deflections = this.getRandomDeflections();
 
   }
 
@@ -153,9 +153,9 @@ class Agent {
   dontOverlap(agent) {
     let distanceVector = p5.Vector.sub(agent.location, this.location);
     let distance = distanceVector.mag();
-    if (distance < this.diameter) {
+    if (distance < this.diameter + this.swarm.params.socialDistanceLength) {
       distanceVector.mult(-1);
-      distanceVector.setMag((this.diameter - distance));
+      distanceVector.setMag((this.diameter - distance + this.swarm.params.socialDistanceLength));
       this.velocity.add(distanceVector);
     }
   }
@@ -239,7 +239,7 @@ class Agent {
   }
 
   getRandomSingleDeflection() {
-    return this.game.p5.random(-0.1, 0.1);
+    return 0; //this.game.p5.random(-0.1, 0.1);
   }
 
   getRandomDeflections() {

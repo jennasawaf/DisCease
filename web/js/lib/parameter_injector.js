@@ -19,10 +19,12 @@ class ParameterInjector {
         deathRate: 0,
         immunizationRate: 0.0005,
         immunizationLossRate: 0.0001,
+        socialDistanceLength: 10,
       },
       uiParams: {
         side: 300,
         fps: 24,
+        boxPadding: 10,
       },
     };
     this.clients = [];

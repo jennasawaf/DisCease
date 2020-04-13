@@ -13,17 +13,17 @@ class SwarmManager {
   }
 
   updateParams() {
-    let params = this.game.paramsInjector.params.swarmParams;
-    this.numAgents = params.numAgents;
-    this.diseaseIntroductionRate = params.diseaseIntroductionRate;
-    this.forceOfAttraction = params.forceOfAttraction;
-    this.contagionRate = params.contagionRate;
-    this.immunizationRate = params.immunizationRate;
-    this.zombificationRate = params.zombificationRate;
-    this.diseaseIdentificationProbability = params.diseaseIdentificationProbability;
-    this.immunizationLossRate = params.immunizationLossRate;
-    this.visualRange = params.visualRange;
-    this.boxPadding = 10;
+    this.params = this.game.paramsInjector.params.swarmParams;
+    this.numAgents = this.params.numAgents;
+    this.diseaseIntroductionRate = this.params.diseaseIntroductionRate;
+    this.forceOfAttraction = this.params.forceOfAttraction;
+    this.contagionRate = this.params.contagionRate;
+    this.immunizationRate = this.params.immunizationRate;
+    this.zombificationRate = this.params.zombificationRate;
+    this.diseaseIdentificationProbability = this.params.diseaseIdentificationProbability;
+    this.immunizationLossRate = this.params.immunizationLossRate;
+    this.visualRange = this.params.visualRange;
+    this.boxPadding = this.game.paramsInjector.params.uiParams.boxPadding;
   }
 
   initEpisode() {
@@ -146,7 +146,7 @@ class SwarmManager {
     this.agents.forEach(agent => {
       if (agent.healthState == state.diseased)
         total++;
-    })
+    });
 
     return total;
   }
@@ -158,8 +158,8 @@ class SwarmManager {
     this.agents.forEach(agent => {
       if (agent.healthState == state.immune)
         total++;
-    })
-    
+    });
+
     return total;
   }
 
@@ -170,12 +170,12 @@ class SwarmManager {
     this.agents.forEach(agent => {
       if (agent.healthState == state.healthy)
         total++;
-    })
-    
+    });
+
     return total;
 
   }
 
-  
+
 
 }
