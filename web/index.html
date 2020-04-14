@@ -35,20 +35,11 @@
   </div>
 
 
-  <div class= "col-auto" >
+  <div>
     <div class="row" id="sketch-and-params" >
-      <div class="col-5" id="sketch-holder"  ></div>
-      <div class="col-5" id="graph-and-stats" >
-
-        <table id="episodeStats" class="table-sm table-striped table-bordered statsTable">
-          <tr>
-            <th>Episode Number</th>
-            <th>Total Diseased</th>
-            <th>Total Immunized</th>
-            <th>Total Healthy</th>
-            <th>Total Survived</th>
-          </tr>
-        </table>
+      <div class="col-auto" id="sketch-holder"></div><br/>
+      <div class="col-auto" id="graph-and-stats">
+        <!--TODO: Insert current episode line-graph here-->
       </div>
     </div>
     <div class="row">
@@ -68,6 +59,16 @@
       </div>
     </div>
   </div>
+  <table id="episodeStats" class="table-sm table-striped table-bordered statsTable">
+    <tr>
+      <th>Episode</th>
+      <th>Total Diseased</th>
+      <th>Final Diseased</th>
+      <th>Final Recovered</th>
+      <th>Final Healthy</th>
+      <th>Final Survived</th>
+    </tr>
+  </table>
 
 
 

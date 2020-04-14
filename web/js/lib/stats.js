@@ -6,7 +6,8 @@ class Stats {
       recovered: 0,
       healthy: 0,
       dead: 0,
-    }
+    };
+    this.totalDiseased = 0;
   }
 
   perTimeStep() {
@@ -16,6 +17,7 @@ class Stats {
 
   perEpisode() {
     this.game.uiManager.updateEpisodeInfo();
+    this.totalDiseased = 0;
   }
 
   updateCurrentPopulations() {
@@ -33,6 +35,10 @@ class Stats {
         case state.dead: this.currentPopulation.dead++; break;
       }
     }
+  }
+
+  incrementDiseased(){
+    this.totalDiseased++;
   }
 
 

@@ -54,24 +54,24 @@ class UIManager {
   }
 
   updateEpisodeInfo() {
-    // TODO: Update stats table here. The population values are in this.game.stats.currentPopulation
-    // this.addRow(episodeNumber, totalDiseased, totalSurvived, totalImmunized, 0);
+    let populations = this.game.stats.currentPopulation;
+    if (this.game.episodeManager.episode === 1) return;
+    this.addRow(
+      this.game.episodeManager.episode - 1,
+      this.game.stats.totalDiseased,
+      populations.diseased,
+      populations.recovered,
+      populations.healthy,
+      populations.healthy + populations.recovered
+    );
   }
 
-  addRow(episodeNumber, totalDiseased, totalSurvived, totalImmunized, totalHealthy) {
+  addRow(...values) {
     let row = this.episodeStatsTable.insertRow();
-
-    let episodeColumn = row.insertCell(0);
-    let totalDiseasedColumn = row.insertCell(1);
-    let totalImmunizedColumn = row.insertCell(2);
-    let totalHealthyColumn = row.insertCell(3);
-    let totalSurvivedColumn = row.insertCell(4);
-
-    episode.innerHTML = episodeNumber;
-    totalDiseasedColumn.innerHTML = totalDiseased;
-    totalImmunizedColumn.innerHTML = totalImmunized;
-    totalHealthyColumn.innerHTML = totalHealthy;
-    totalSurvivedColumn.innerHTML = totalSurvived;
+    for (let i = 0; i < values.length; i++) {
+      let column = row.insertCell(i);  // TODO: Check if column var is necessary?
+      column.innerHTML = values[i];
+    }
   }
 
 }

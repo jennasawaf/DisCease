@@ -156,13 +156,6 @@ class Agent {
 
     let px = this.game.p5.random();
 
-    if (this.healthState === state.healthy) {
-      /*if (px <= this.swarm.recoveryRate) {
-        this.healthState = state.recovered;
-        return;
-      }*/
-    }
-
     if (this.healthState === state.dead)
       return;
 
@@ -203,6 +196,7 @@ class Agent {
       this.healthState = state.diseased;
       this.numDiseased += 1;
       neighbours.forEach(neighbour => neighbour.numDiseaseSpread++);
+      this.game.stats.incrementDiseased();
     }
 
   }
