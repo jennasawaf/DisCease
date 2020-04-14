@@ -22,7 +22,7 @@ class Agent {
     this.numEpisodesSurvived = 1;
 
     // Genetic Information:
-    this.deflections = (deflections != null) ? deflections : this.getRandomDeflections();
+    this.deflections = (deflections != null) ? deflections : this.getPerfectDeflections();
 
   }
 
@@ -145,9 +145,14 @@ class Agent {
   dontOverlap(agent) {
     let distanceVector = p5.Vector.sub(agent.location, this.location);
     let distance = distanceVector.mag();
-    if (distance < this.diameter + this.swarm.params.socialDistanceLength) {
+    let socialDistance = (this.swarm.params.socialDistancingDiseasedTrigger * this.swarm.numAgents > this.game.stats.totalDiseased) ? 0 : this.swarm.params.socialDistanceLength;
+    //console.log(this.swarm.params.socialDistancingDiseasedTrigger * this.swarm.numAgents);
+    //console.log(this.game.stats.totalDiseased);
+    //console.log(socialDistance);
+    //console.log("..");
+    if (distance < this.diameter + socialDistance) {
       distanceVector.mult(-1);
-      distanceVector.setMag((this.diameter - distance + this.swarm.params.socialDistanceLength));
+      distanceVector.setMag((this.diameter - distance + socialDistance));
       this.velocity.add(distanceVector);
     }
   }
@@ -172,13 +177,13 @@ class Agent {
     }
 
     if (this.healthState === state.diseased) {
-      if (px <= this.swarm.recoveryRate) {
+      if (px <= this.swarm.params.recoveryRate) {
         this.healthState = state.recovered;
       }
-      if (px <= this.swarm.deathRate) {
+      if (px <= this.swarm.params.deathRate) {
         this.healthState = state.dead;
       }
-      if (px <= this.swarm.zombificationRate) {
+      if (px <= this.swarm.params.zombificationRate) {
         this.healthState = state.zombie;
       }
       return;

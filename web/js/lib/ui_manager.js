@@ -55,14 +55,15 @@ class UIManager {
 
   updateEpisodeInfo() {
     let populations = this.game.stats.currentPopulation;
+    let numAgents = this.game.swarmManager.numAgents;
     if (this.game.episodeManager.episode === 1) return;
     this.addRow(
       this.game.episodeManager.episode - 1,
-      this.game.stats.totalDiseased,
-      populations.diseased,
-      populations.recovered,
-      populations.healthy,
-      populations.healthy + populations.recovered
+      (this.game.stats.totalDiseased / numAgents).toFixed(2),
+      (populations.diseased / numAgents).toFixed(2),
+      (populations.recovered / numAgents).toFixed(2),
+      (populations.healthy / numAgents).toFixed(2),
+      ((populations.healthy + populations.recovered) / numAgents).toFixed(2)
     );
   }
 

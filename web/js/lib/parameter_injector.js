@@ -16,14 +16,15 @@ class ParameterInjector {
         contagionRate: 0.1,
         visualRange: 30,
         zombificationRate: 0, //0.0001,
-        deathRate: 0.0015,
+        deathRate: 0.001,
         recoveryRate: 0.002,
         recoveryLossRate: 0.001,
-        socialDistanceLength: 0,
+        socialDistanceLength: 10,
+        socialDistancingDiseasedTrigger: 0.1,
       },
       uiParams: {
         side: 300,
-        fps: 144,
+        fps: 100,
         boxPadding: 10,
       },
     };
