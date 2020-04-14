@@ -5,7 +5,7 @@ class ParameterInjector {
     this.params = {
       episodeParams: {
         framesPerTimeStep: 3,
-        timeStepsPerEpisode: 500,
+        timeStepsPerEpisode: 300,
       },
       swarmParams: {
         numAgents: 150,
@@ -23,7 +23,7 @@ class ParameterInjector {
       },
       uiParams: {
         side: 300,
-        fps: 24,
+        fps: 144,
         boxPadding: 10,
       },
     };

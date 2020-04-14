@@ -82,8 +82,15 @@ class SwarmManager {
   }
 
   mutate(agents) {
-    // TODO: Perform a perturbation of this.mutation on the genes.
-
+    let states = ['diseased', 'recovered', 'healthy'];
+    agents.forEach(agent => {
+      states.forEach(selfState => {
+        states.forEach(otherState => {
+          let perturbation = this.game.p5.random(-1, 1) * this.params.mutation;
+          agent.deflections[selfState][otherState] += perturbation;
+        })
+      })
+    });
   }
 
   finishEpisode() {
