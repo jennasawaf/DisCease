@@ -42,7 +42,7 @@ class SwarmManager {
       return;
     }
 
-    this.agents.sort((agent_1, agent_2) => agent_1.getScore() - agent_2.getScore());
+    this.agents.sort((agent_1, agent_2) => agent_2.getScore() - agent_1.getScore());
     let nextGenAgents = this.agents.slice(0, this.numAgents / 2);
     this.mutate(nextGenAgents);
 
@@ -103,8 +103,8 @@ class SwarmManager {
   updateAll(episodeManager) {
     this.introduceDisease(episodeManager);
     this.agents.forEach(agent => agent.update(this.agents));
-    // let groupCenters = this.getGroupCenters();
-    // this.agents.forEach(agent => agent.applyForce(this.getGroupCenterVector(agent, groupCenters[agent.healthState])))
+    let groupCenters = this.getGroupCenters();
+    this.agents.forEach(agent => agent.applyForce(this.getGroupCenterVector(agent, groupCenters[agent.healthState])))
   }
 
   displayAll(sketch) {

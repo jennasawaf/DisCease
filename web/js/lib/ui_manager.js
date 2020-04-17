@@ -58,17 +58,67 @@ class UIManager {
     // TODO: Put these population numbers into a graph.
     $("#message_p").html(`Episode: ${episodeNumber}\nHealthy: ${populations.healthy}, dis: ${populations.diseased}, dead: ${populations.dead}, recovered: ${populations.recovered}`);
 
+    if (this.game.episodeManager.timeStep % 10 === 0) {
+      this.currentEpisodePopulationChart.data.datasets[0].data.push(populations.healthy);
+      this.currentEpisodePopulationChart.data.datasets[1].data.push(populations.diseased);
+      this.currentEpisodePopulationChart.data.datasets[2].data.push(populations.recovered);
+      this.currentEpisodePopulationChart.data.datasets[3].data.push(populations.dead);
+      this.currentEpisodePopulationChart.data.labels.push(this.game.episodeManager.timeStep);
 
-
+      this.currentEpisodePopulationChart.update(this.game.episodeManager.timeStep);
+    }
 
   }
 
-  initEpisodeCharts(){
+  updateEpisodeInfo() {
+    let populations = this.game.stats.currentPopulation;
+    let numAgents = this.game.swarmManager.numAgents;
+    if (this.game.episodeManager.episode === 1) return;
+    this.addRow(
+      this.game.episodeManager.episode - 1,
+      (this.game.stats.totalDiseased / numAgents).toFixed(2),
+      (populations.diseased / numAgents).toFixed(2),
+      (populations.recovered / numAgents).toFixed(2),
+      (populations.healthy / numAgents).toFixed(2),
+      ((populations.healthy + populations.recovered) / numAgents).toFixed(2)
+    );
+    this.initEpisodeCharts();
+  }
+
+  initEpisodeCharts() {
     let populationChart = {
       type: 'line',
       data: {
         labels: [],
-        datasets: []
+        datasets: [{
+          label: 'healthy',
+          data: [],
+          backgroundColor: 'transparent',
+          borderColor: 'blue',
+          borderWidth: 1,
+          pointRadius: 0,
+        }, {
+          label: 'diseased',
+          data: [],
+          backgroundColor: 'transparent',
+          borderColor: 'red',
+          borderWidth: 1,
+          pointRadius: 0,
+        }, {
+          label: 'recovered',
+          data: [],
+          backgroundColor: 'transparent',
+          borderColor: 'green',
+          borderWidth: 1,
+          pointRadius: 0,
+        }, {
+          label: 'dead',
+          data: [],
+          backgroundColor: 'transparent',
+          borderColor: 'gray',
+          borderWidth: 1,
+          pointRadius: 0,
+        }]
       },
       options: {
         title: {
@@ -100,23 +150,9 @@ class UIManager {
 
     let heatmapConfig = {
       title: `Episode: ${this.game.episodeManager.episode} | Mean Genes`,
-      data: this.game.statsManager.currentEpochAvgGenes,
+      data: this.game.stats.currentEpochAvgGenes,
     };
     this.createHeatmap(heatmapConfig);
-  }
-
-  updateEpisodeInfo() {
-    let populations = this.game.stats.currentPopulation;
-    let numAgents = this.game.swarmManager.numAgents;
-    if (this.game.episodeManager.episode === 1) return;
-    this.addRow(
-      this.game.episodeManager.episode - 1,
-      (this.game.stats.totalDiseased / numAgents).toFixed(2),
-      (populations.diseased / numAgents).toFixed(2),
-      (populations.recovered / numAgents).toFixed(2),
-      (populations.healthy / numAgents).toFixed(2),
-      ((populations.healthy + populations.recovered) / numAgents).toFixed(2)
-    );
   }
 
   addRow(...values) {
@@ -146,93 +182,108 @@ class UIManager {
 
     figure.appendChild(mapContainer);
     chartDiv.appendChild(figure);
-    this.graphsRef.appendChild(chartDiv);
+    this.graphsRef.prepend(chartDiv);
 
     Highcharts.chart(mapContainer, {
 
-        chart: {
-          type: 'heatmap',
-          marginTop: 40,
-          marginBottom: 80,
-          plotBorderWidth: 1
-        },
+      chart: {
+        type: 'heatmap',
+        marginTop: 40,
+        marginBottom: 80,
+        plotBorderWidth: 1
+      },
 
-        title: {
-          text: heatmapConfig.title,
-        },
+      title: {
+        text: heatmapConfig.title,
+      },
 
-        xAxis: {
-          categories: ['healthy', 'diseased', 'recovered']
-        },
+      xAxis: {
+        categories: ['healthy', 'diseased', 'recovered']
+      },
 
-        yAxis: {
-          categories: ['healthy', 'diseased', 'recovered'],
-          title: null,
-          reversed: true
-        },
+      yAxis: {
+        categories: ['healthy', 'diseased', 'recovered'],
+        title: null,
+        reversed: true
+      },
 
-        accessibility: {
-          point: {
-            descriptionFormatter: function (point) {
-              var ix = point.index + 1,
-                xName = getPointCategoryName(point, 'x'),
-                yName = getPointCategoryName(point, 'y'),
-                val = point.value;
-              return ix + '. ' + xName + ' sales ' + yName + ', ' + val + '.';
-            }
+      accessibility: {
+        point: {
+          descriptionFormatter: function (point) {
+            var ix = point.index + 1,
+              xName = getPointCategoryName(point, 'x'),
+              yName = getPointCategoryName(point, 'y'),
+              val = point.value;
+            return ix + '. ' + xName + ' sales ' + yName + ', ' + val + '.';
           }
-        },
+        }
+      },
 
-        colorAxis: {
-          min: 0,
-          minColor: '#FFFFFF',
-          maxColor: Highcharts.getOptions().colors[0]
-        },
+      /*colorAxis: {
+        min: 0,
+        minColor: '#FFFFFF',
+        maxColor: Highcharts.getOptions().colors[0]
+      },*/
 
-        legend: {
-          align: 'right',
-          layout: 'vertical',
-          margin: 0,
-          verticalAlign: 'top',
-          y: 25,
-          symbolHeight: 280
-        },
+      colorAxis: {
+        stops: [
+          [0, '#c4463a'],
+          [0.5, '#ffffff'],
+          [1, '#3060cf']
+        ],
+        min: -0.2,
+        max: 0.2,
+        startOnTick: false,
+        endOnTick: false,
+        labels: {
+          format: '{value}℃'
+        }
+      },
 
-        tooltip: {
-          formatter: function () {
-            return '<b>' + getPointCategoryName(this.point, 'x') + '</b> sold <br><b>' +
-              this.point.value + '</b> items on <br><b>' + getPointCategoryName(this.point, 'y') + '</b>';
-          }
-        },
+      legend: {
+        align: 'right',
+        layout: 'vertical',
+        margin: 0,
+        verticalAlign: 'top',
+        y: 25,
+        symbolHeight: 280
+      },
 
-        series: [{
-          name: 'Genes',
-          borderWidth: 1,
-          data: heatmapConfig.data,
-          dataLabels: {
-            enabled: true,
-            color: '#000000'
-          }
-        }],
+      tooltip: {
+        formatter: function () {
+          return '<b>' + getPointCategoryName(this.point, 'x') + '</b> sold <br><b>' +
+            this.point.value + '</b> items on <br><b>' + getPointCategoryName(this.point, 'y') + '</b>';
+        }
+      },
 
-        responsive: {
-          rules: [{
-            condition: {
-              maxWidth: 500
-            },
-            chartOptions: {
-              yAxis: {
-                labels: {
-                  formatter: function () {
-                    return this.value.charAt(0);
-                  }
+      series: [{
+        name: 'Genes',
+        borderWidth: 1,
+        data: heatmapConfig.data,
+        dataLabels: {
+          enabled: true,
+          color: '#000000'
+        }
+      }],
+
+      responsive: {
+        rules: [{
+          condition: {
+            maxWidth: 500
+          },
+          chartOptions: {
+            yAxis: {
+              labels: {
+                formatter: function () {
+                  return this.value.charAt(0);
                 }
               }
             }
-          }]
-        }
+          }
+        }]
+      }
 
-      });
+    });
 
     return mapContainer;
 
@@ -248,7 +299,7 @@ class UIManager {
     let timeStepChart = new Chart(chartCanvas, chartConfig);
 
     chartDiv.appendChild(chartCanvas);
-    this.graphsRef.appendChild(chartDiv);
+    this.graphsRef.prepend(chartDiv);
 
     return timeStepChart;
   }

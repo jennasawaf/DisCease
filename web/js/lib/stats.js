@@ -62,6 +62,7 @@ class Stats {
             avgGene[2] += agent.deflections[types[i]][types[j]];
         }
         avgGene[2] /= this.game.swarmManager.agents.length;
+        avgGene[2] = parseFloat(avgGene[2].toFixed(5));
         avgGenes.push(avgGene);
       }
     }

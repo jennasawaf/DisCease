@@ -22,7 +22,7 @@ class Agent {
     this.numEpisodesSurvived = 1;
 
     // Genetic Information:
-    this.deflections = (deflections != null) ? deflections : this.getPerfectDeflections();
+    this.deflections = (deflections != null) ? deflections : this.getRandomDeflections();
 
   }
 
@@ -55,7 +55,7 @@ class Agent {
     let neighbours = this.getObservableNeighbours(allAgents);
 
     this.checkContaminated(neighbours);
-    this.applyForce(this.getNextMove(neighbours).mult(0.1));
+    // this.applyForce(this.getNextMove(neighbours).mult(0.1));
 
     this._updateLocation();
   }
@@ -143,16 +143,16 @@ class Agent {
   }
 
   dontOverlap(agent) {
+    // if (this.healthState === agent.healthState) return;
     let distanceVector = p5.Vector.sub(agent.location, this.location);
     let distance = distanceVector.mag();
     let socialDistance = (this.swarm.params.socialDistancingDiseasedTrigger * this.swarm.numAgents > this.game.stats.totalDiseased) ? 0 : this.swarm.params.socialDistanceLength;
-    //console.log(this.swarm.params.socialDistancingDiseasedTrigger * this.swarm.numAgents);
-    //console.log(this.game.stats.totalDiseased);
-    //console.log(socialDistance);
-    //console.log("..");
-    if (distance < this.diameter + socialDistance) {
+    socialDistance += this.diameter;
+    socialDistance *= -5 * this.deflections[this.healthState][agent.healthState];
+
+    if (distance < socialDistance) {
       distanceVector.mult(-1);
-      distanceVector.setMag((this.diameter - distance + socialDistance));
+      distanceVector.setMag((socialDistance - distance));
       this.velocity.add(distanceVector);
     }
   }
@@ -226,8 +226,48 @@ class Agent {
     return p5.Vector.sub(center, this.location);
   }
 
+  getZeroDeflections() {
+    return {
+      'diseased': {
+        'diseased': 0,
+        'healthy': 0,
+        'recovered': 0,
+        'zombie': 0,
+        'dead': 0,
+      },
+      'healthy': {
+        'diseased': 0,
+        'healthy': 0,
+        'recovered': 0,
+        'zombie': 0,
+        'dead': 0,
+      },
+      'recovered': {
+        'diseased': 0,
+        'healthy': 0,
+        'recovered': 0,
+        'zombie': 0,
+        'dead': 0,
+      },
+      'zombie': {
+        'diseased': 0,
+        'healthy': 1,
+        'recovered': 1,
+        'zombie': 0.5,
+        'dead': 0,
+      },
+      'dead': {
+        'diseased': 0,
+        'healthy': 0,
+        'recovered': 0,
+        'zombie': 0,
+        'dead': 0,
+      },
+    }
+  }
+
   getRandomSingleDeflection() {
-    return 0; //this.game.p5.random(-0.1, 0.1);
+    return this.game.p5.random(-0.1, 0.1);
   }
 
   getRandomDeflections() {

@@ -10,17 +10,17 @@ class ParameterInjector {
       swarmParams: {
         numAgents: 150,
         mutation: 0.1,
-        diseaseIntroductionRate: 0.001,
+        diseaseIntroductionRate: 0.000,
         forceOfAttraction: 0.002,  // global force
         diseaseIdentificationProbability: 1,
         contagionRate: 0.1,
         visualRange: 30,
         zombificationRate: 0, //0.0001,
-        deathRate: 0.001,
+        deathRate: 0.00005,
         recoveryRate: 0.002,
-        recoveryLossRate: 0.001,
+        recoveryLossRate: 0.0015,
         socialDistanceLength: 10,
-        socialDistancingDiseasedTrigger: 0.1,
+        socialDistancingDiseasedTrigger: 0,
       },
       uiParams: {
         side: 300,

@@ -3,8 +3,8 @@ class Game {
     this.paramsInjector = ParameterInjector.getInstance();
     this.episodeManager = new EpisodeManager(this);
     this.swarmManager = new SwarmManager(this);
-    this.uiManager = new UIManager(this);
     this.stats = new Stats(this);
+    this.uiManager = new UIManager(this);
     this.sketch = null;
     this.p5 = null;
   }
