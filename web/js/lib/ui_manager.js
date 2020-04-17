@@ -80,7 +80,8 @@ class UIManager {
       (populations.diseased / numAgents).toFixed(2),
       (populations.recovered / numAgents).toFixed(2),
       (populations.healthy / numAgents).toFixed(2),
-      ((populations.healthy + populations.recovered) / numAgents).toFixed(2)
+      ((populations.healthy + populations.recovered) / numAgents).toFixed(2),
+      this.game.stats.meanScore.toFixed(4),
     );
     this.initEpisodeCharts();
   }

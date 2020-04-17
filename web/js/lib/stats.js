@@ -8,6 +8,7 @@ class Stats {
       dead: 0,
     };
     this.totalDiseased = 0;
+    this.meanScore = null;
   }
 
   perTimeStep() {
@@ -17,9 +18,17 @@ class Stats {
 
   perEpisode() {
     this.currentEpochAvgGenes = this.collectMeanGenes();
+    this.meanScore = this.getMeanScore();
 
     this.game.uiManager.updateEpisodeInfo();
     this.totalDiseased = 0;
+  }
+
+  getMeanScore() {
+    let meanScore = 0;
+    this.game.swarmManager.agents.forEach(agent => meanScore += agent.getScore());
+    meanScore /= this.game.swarmManager.agents.length;
+    return meanScore;
   }
 
   updateCurrentPopulations() {
@@ -59,7 +68,7 @@ class Stats {
       for (let j = 0; j < types.length; j++) {
         let avgGene = [i, j, 0];
         for (let agent of this.game.swarmManager.agents) {
-            avgGene[2] += agent.deflections[types[i]][types[j]];
+          avgGene[2] += agent.deflections[types[i]][types[j]];
         }
         avgGene[2] /= this.game.swarmManager.agents.length;
         avgGene[2] = parseFloat(avgGene[2].toFixed(5));
