@@ -34,10 +34,11 @@ class Agent {
 
     this.numDiseased = 1;
     this.numDiseaseSpread = 1;  // Number of times this guy spread its disease to others.
+
   }
 
   getScore() {
-    return this.numEpisodesSurvived / this.numDiseased / this.numDiseaseSpread;
+    return this.numEpisodesSurvived / (this.numDiseased * this.numDiseaseSpread);
   }
 
   setVelocity(velocity) {
@@ -167,7 +168,6 @@ class Agent {
     if (this.healthState === state.recovered) {
       if (px <= this.swarm.recoveryLossRate)
         this.healthState = state.healthy;
-      return;
     }
 
     if (this.healthState === state.zombie) {
@@ -198,10 +198,12 @@ class Agent {
     }
 
     if (px <= totalContagion) {
-      this.healthState = state.diseased;
       this.numDiseased += 1;
       neighbours.forEach(neighbour => neighbour.numDiseaseSpread++);
-      this.game.stats.incrementDiseased();
+      if (this.healthState === state.healthy) {
+        this.healthState = state.diseased;
+        this.game.stats.incrementDiseased();
+      }
     }
 
   }
