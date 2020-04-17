@@ -7,6 +7,12 @@ class UIManager {
 
     this.registerSliders();
     this.episodeStatsTable = document.getElementById('episodeStats');
+    this.graphsRef = document.getElementById('graphs');
+
+    this.currentEpisodePopulationChart = null;
+
+
+    this.initEpisodeCharts();
 
   }
 
@@ -51,6 +57,52 @@ class UIManager {
 
     // TODO: Put these population numbers into a graph.
     $("#message_p").html(`Episode: ${episodeNumber}\nHealthy: ${populations.healthy}, dis: ${populations.diseased}, dead: ${populations.dead}, recovered: ${populations.recovered}`);
+
+
+
+
+  }
+
+  initEpisodeCharts(){
+    let populationChart = {
+      type: 'line',
+      data: {
+        labels: [],
+        datasets: []
+      },
+      options: {
+        title: {
+          display: true,
+          text: `Episode: ${this.game.episodeManager.episode} | Population`
+        },
+        elements: {
+          line: {
+            tension: 0
+          }
+        },
+        scales: {
+          yAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'Population'
+            }
+          }],
+          xAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'TimeSteps'
+            }
+          }],
+        },
+      }
+    };
+    this.currentEpisodePopulationChart = this.addChartToPage(populationChart);
+
+    let heatmapConfig = {
+      title: `Episode: ${this.game.episodeManager.episode} | Mean Genes`,
+      data: this.game.statsManager.currentEpochAvgGenes,
+    };
+    this.createHeatmap(heatmapConfig);
   }
 
   updateEpisodeInfo() {
@@ -75,4 +127,138 @@ class UIManager {
     }
   }
 
+  createHeatmap(heatmapConfig) {
+    /*
+    heatmapConfig = {
+      title: "Title",
+      data: [[0,0,1], [0, 1, 12], .. ]
+    }
+     */
+    let chartDiv = document.createElement('div');
+    chartDiv.className = 'col-auto';
+    chartDiv.style.width = '600px';
+    chartDiv.style.height = '400px';
+
+    let figure = document.createElement('figure');
+    figure.className = "highcharts-figure";
+
+    let mapContainer = document.createElement("div");
+
+    figure.appendChild(mapContainer);
+    chartDiv.appendChild(figure);
+    this.graphsRef.appendChild(chartDiv);
+
+    Highcharts.chart(mapContainer, {
+
+        chart: {
+          type: 'heatmap',
+          marginTop: 40,
+          marginBottom: 80,
+          plotBorderWidth: 1
+        },
+
+        title: {
+          text: heatmapConfig.title,
+        },
+
+        xAxis: {
+          categories: ['healthy', 'diseased', 'recovered']
+        },
+
+        yAxis: {
+          categories: ['healthy', 'diseased', 'recovered'],
+          title: null,
+          reversed: true
+        },
+
+        accessibility: {
+          point: {
+            descriptionFormatter: function (point) {
+              var ix = point.index + 1,
+                xName = getPointCategoryName(point, 'x'),
+                yName = getPointCategoryName(point, 'y'),
+                val = point.value;
+              return ix + '. ' + xName + ' sales ' + yName + ', ' + val + '.';
+            }
+          }
+        },
+
+        colorAxis: {
+          min: 0,
+          minColor: '#FFFFFF',
+          maxColor: Highcharts.getOptions().colors[0]
+        },
+
+        legend: {
+          align: 'right',
+          layout: 'vertical',
+          margin: 0,
+          verticalAlign: 'top',
+          y: 25,
+          symbolHeight: 280
+        },
+
+        tooltip: {
+          formatter: function () {
+            return '<b>' + getPointCategoryName(this.point, 'x') + '</b> sold <br><b>' +
+              this.point.value + '</b> items on <br><b>' + getPointCategoryName(this.point, 'y') + '</b>';
+          }
+        },
+
+        series: [{
+          name: 'Genes',
+          borderWidth: 1,
+          data: heatmapConfig.data,
+          dataLabels: {
+            enabled: true,
+            color: '#000000'
+          }
+        }],
+
+        responsive: {
+          rules: [{
+            condition: {
+              maxWidth: 500
+            },
+            chartOptions: {
+              yAxis: {
+                labels: {
+                  formatter: function () {
+                    return this.value.charAt(0);
+                  }
+                }
+              }
+            }
+          }]
+        }
+
+      });
+
+    return mapContainer;
+
+  }
+
+  addChartToPage(chartConfig) {
+    let chartDiv = document.createElement('div');
+    chartDiv.className = 'col-auto';
+    chartDiv.style.width = '600px';
+    chartDiv.style.height = '400px';
+    let chartCanvas = document.createElement('canvas');
+
+    let timeStepChart = new Chart(chartCanvas, chartConfig);
+
+    chartDiv.appendChild(chartCanvas);
+    this.graphsRef.appendChild(chartDiv);
+
+    return timeStepChart;
+  }
+
+}
+
+
+function getPointCategoryName(point, dimension) {
+  let series = point.series,
+    isY = dimension === 'y',
+    axis = series[isY ? 'yAxis' : 'xAxis'];
+  return axis.categories[point[isY ? 'y' : 'x']];
 }

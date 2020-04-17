@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="css/heatmap.css">
 
   <meta name="theme-color" content="#fafafa">
 </head>
@@ -30,17 +31,15 @@
 
   <h1>DisCease</h1>
 
-  <div class="row" id="stats" >
+  <div class="row" id="stats">
     <p id="message_p"></p>
   </div>
 
 
   <div>
-    <div class="row" id="sketch-and-params" >
-      <div class="col-auto" id="sketch-holder"></div><br/>
-      <div class="col-auto" id="graph-and-stats">
-        <!--TODO: Insert current episode line-graph here-->
-      </div>
+    <div class="col-auto" id="sketch-holder"></div>
+    <div class="row" id="graphs">
+      <!--TODO: Insert current episode line-graph here-->
     </div>
     <div class="row">
       <div class="col-4" id="hyper-parameters">
@@ -70,8 +69,6 @@
     </tr>
   </table>
 
-
-
 </div>
 
 <!-- -------------------------------------------------------------- -->
@@ -81,6 +78,9 @@
 <!-- <script src="js/vendor/ml5.js"></script> -->
 <script src="js/vendor/jquery.js"></script>
 <script src="js/vendor/bootstrap.js"></script>
+<script src="js/vendor/chart.min.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/heatmap.js"></script>
 
 <!-- -------------------------------------------------------------- -->
 
