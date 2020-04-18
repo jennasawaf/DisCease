@@ -21,6 +21,10 @@ class ParameterInjector {
         recoveryLossRate: 0.0015,
         socialDistanceLength: 10,
         socialDistancingDiseasedTrigger: 0,
+        amountOfArtificialSelection: 0.5,
+        amountOfOffSprings: 0.5,
+        strictDistancingMultiplier: 5,
+        dontOverlap: 1,
       },
       uiParams: {
         side: 300,
