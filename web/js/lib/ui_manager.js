@@ -25,27 +25,33 @@ class UIManager {
   }
 
   registerSliders() {
-    this.contagionSlider = document.getElementById("contagionSlider");
-    this.recoverySlider = document.getElementById("recoverySlider");
-    this.deathSlider = document.getElementById("deathSlider");
+    this.contagionInput = document.getElementById("contagionInput");
+    this.recoveryInput = document.getElementById("recoveryInput");
+    this.deathInput = document.getElementById("deathInput");
+    this.recoveryLossInput = document.getElementById("recoveryLossInput");
 
     let self = this;
     let params = this.game.paramsInjector;
 
     // TODO: Update slider to the values in params.
 
-    this.contagionSlider.onchange = function () {
-      params.params.swarmParams.contagionRate = self.contagionSlider.value;
+    this.contagionInput.onchange = function () {
+      params.params.swarmParams.contagionRate = self.contagionInput.value;
       params.updateAll();
     };
 
-    this.recoverySlider.onchange = function () {
-      params.params.swarmParams.recoveryRate = self.recoverySlider.value;
+    this.recoveryInput.onchange = function () {
+      params.params.swarmParams.recoveryRate = self.recoveryInput.value;
       params.updateAll();
     };
 
-    this.deathSlider.onchange = function () {
-      params.params.swarmParams.deathRate = self.deathSlider.value;
+    this.deathInput.onchange = function () {
+      params.params.swarmParams.deathRate = self.deathInput.value;
+      params.updateAll();
+    };
+
+    this.recoveryLossInput.onchange = function() {
+      params.params.swarmParams.recoveryLossRate = self.recoveryLossInput.value;
       params.updateAll();
     };
   }
