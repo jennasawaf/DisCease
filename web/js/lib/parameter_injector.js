@@ -10,7 +10,7 @@ class ParameterInjector {
       swarmParams: {
         numAgents: 150,
         mutation: 0.1,
-        diseaseIntroductionRate: 0.000,
+        diseaseIntroductionRate: 0,
         forceOfAttraction: 0.002,  // global force
         diseaseIdentificationProbability: 1,
         contagionRate: 0.1,
@@ -23,8 +23,9 @@ class ParameterInjector {
         socialDistancingDiseasedTrigger: 0,
         amountOfArtificialSelection: 0.5,
         amountOfOffSprings: 0.5,
-        strictDistancingMultiplier: 5,
-        dontOverlap: 1,
+        deflectionStrength: 0.1,
+        dontOverlap: 0,
+        socialDistanceOfLikeAgents: 0,
       },
       uiParams: {
         side: 300,
@@ -96,12 +97,16 @@ class ParameterInjector {
         desc: "The fraction of agents to be replicated with mutation.",
       },
       {
-        name: 'strictDistancingMultiplier',
-        desc: "[0-1] The ",
+        name: 'deflectionStrength',
+        desc: "The strength/scale of deflections.",
       },
       {
         name: 'dontOverlap',
         desc: "[0-1] Agents don't overlap if this value is 1.",
+      },
+      {
+        name: 'socialDistanceOfLikeAgents',
+        desc: "[0-1] The effect of social distancing between agents of same group.",
       },
     ]
   }

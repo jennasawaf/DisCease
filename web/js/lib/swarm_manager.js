@@ -36,6 +36,7 @@ class SwarmManager {
   }
 
   populateWithAgents() {
+
     if (this.agents.length === 0) {
       for (let i = 0; i < this.numAgents; i++)
         this.agents.push(new Agent(this.game));
@@ -43,13 +44,13 @@ class SwarmManager {
     }
 
     this.agents.sort((agent_1, agent_2) => agent_2.getScore() - agent_1.getScore());
-    let nextGenAgents = this.agents.slice(0, this.numAgents / 2);
+    let nextGenAgents = this.agents.slice(0, this.numAgents * this.params.amountOfArtificialSelection);
     nextGenAgents.forEach(agent => agent.numEpisodesSurvived++);
 
     // Add new agents into the mix
     let rouletteWheelAgents = this.getRouletteWheelAgents();
     for (let i = nextGenAgents.length; i < this.numAgents; i++) {
-      if (Math.random() < 0.5) {
+      if (Math.random() < this.params.amountOfOffSprings) {
         nextGenAgents.push(new Agent(this.game));
       } else {
         // nextGenAgents.push(new Agent(this.game));
@@ -117,7 +118,7 @@ class SwarmManager {
   }
 
   introduceDisease(episodeManager) {
-    if (episodeManager.frame === 1 || this.game.stats.currentPopulation.diseased === 0 || this.game.p5.random() <= this.diseaseIntroductionRate) {
+    if (episodeManager.frame === 1 /*|| this.game.stats.currentPopulation.diseased === 0*/ || this.game.p5.random() <= this.diseaseIntroductionRate) {
       let randomAgent = this.game.p5.random(this.agents);
       if (randomAgent.healthState !== state.dead)
         randomAgent.healthState = state.diseased;

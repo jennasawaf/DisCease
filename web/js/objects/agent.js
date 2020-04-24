@@ -22,7 +22,7 @@ class Agent {
     this.numEpisodesSurvived = 1;
 
     // Genetic Information:
-    this.deflections = (deflections != null) ? deflections : this.getRandomDeflections();
+    this.deflections = (deflections != null) ? deflections : this.getPerfectDeflections();
 
   }
 
@@ -56,9 +56,49 @@ class Agent {
     let neighbours = this.getObservableNeighbours(allAgents);
 
     this.checkContaminated(neighbours);
-    // this.applyForce(this.getNextMove(neighbours).mult(0.1));
+
+    this.manageMovement(neighbours);
 
     this._updateLocation();
+  }
+
+  manageMovement(neighbours) {
+
+    // Applying the deflection force.
+    this.applyForce(this.getNextMove(neighbours));
+
+    // Apply socialDistancing force
+    neighbours.forEach(neighbour => this.applySocialDistance(neighbour));
+
+  }
+
+  applySocialDistance(agent) {
+    let params = this.swarm.params;
+
+    // Add don't overlap condition
+    let pushDistance = params.dontOverlap * this.diameter;
+
+    // Check social distance trigger
+    let isSocialDistancingEnabled = this.game.stats.totalDiseased >= params.socialDistancingDiseasedTrigger * this.swarm.numAgents;
+    if (isSocialDistancingEnabled) {
+      let socialDistance = params.socialDistanceLength;
+
+      // Check if like agents have social distancing
+      if (this.isHealthStateLogicallySame(this, agent))
+        socialDistance *= params.socialDistanceOfLikeAgents;
+
+      pushDistance += socialDistance;
+    }
+
+    let distanceVector = p5.Vector.sub(agent.location, this.location);
+    let distance = distanceVector.mag();
+
+    if (distance < pushDistance) {
+      let pushVector = p5.Vector.mult(distanceVector, -1);
+      pushVector.setMag((pushDistance - distance) / 2);
+      this.velocity.add(pushVector);
+    }
+
   }
 
   display(sketch) {
@@ -73,6 +113,18 @@ class Agent {
     this.velocity.mult(1 - this.drag);
     this.location.add(this.velocity);
     this.acceleration.mult(0);
+  }
+
+  isHealthStateLogicallySame(agent1, agent2) {
+    if (
+      (agent1.healthState === state.healthy || agent1.healthState === state.recovered) &&
+      (agent2.healthState === state.healthy || agent2.healthState === state.recovered)
+    ) return true;
+
+    if (
+      (agent1.healthState === state.diseased || agent1.healthState === state.zombie) &&
+      (agent2.healthState === state.diseased || agent2.healthState === state.zombie)
+    ) return true;
   }
 
   getNextMove(neighbours) {
@@ -96,7 +148,7 @@ class Agent {
       // nextMove.normalize();
     }
 
-    return nextMove.normalize().mult(2);
+    return nextMove.normalize().mult(this.swarm.params.deflectionStrength);
   }
 
   checkBounds() {
@@ -135,27 +187,8 @@ class Agent {
   isInVisualRange(agent) {
     let xInRange = Math.abs(agent.location.x - this.location.x) <= this.swarm.visualRange;
     let yInRange = Math.abs(agent.location.y - this.location.y) <= this.swarm.visualRange;
-    let inVisualRange = xInRange && yInRange;
 
-    if (inVisualRange)
-      this.dontOverlap(agent);
-
-    return inVisualRange
-  }
-
-  dontOverlap(agent) {
-    // if (this.healthState === agent.healthState) return;
-    let distanceVector = p5.Vector.sub(agent.location, this.location);
-    let distance = distanceVector.mag();
-    let socialDistance = (this.swarm.params.socialDistancingDiseasedTrigger * this.swarm.numAgents > this.game.stats.totalDiseased) ? 0 : this.swarm.params.socialDistanceLength;
-    socialDistance += this.diameter;
-    socialDistance *= -5 * this.deflections[this.healthState][agent.healthState];
-
-    if (distance < socialDistance) {
-      distanceVector.mult(-1);
-      distanceVector.setMag((socialDistance - distance));
-      this.velocity.add(distanceVector);
-    }
+    return xInRange && yInRange
   }
 
   checkContaminated(neighbours) {

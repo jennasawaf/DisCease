@@ -7,10 +7,6 @@ class UIManager {
     this.episodeStatsTable = document.getElementById('episodeStats');
     this.graphsRef = document.getElementById('graphs');
     this.currentEpisodePopulationChart = null;
-    this.startBtn = document.getElementById("startBtn");
-    this.pauseBtn = document.getElementById("pauseBtn");
-    this.restartBtn = document.getElementById("restartBtn");
-    this.updateParamsBtn = document.getElementById("updateParamsBtn");
 
     this.initEpisodeCharts();
     this.createParamInputs();
@@ -27,22 +23,32 @@ class UIManager {
   }
 
   setButtonFunctions() {
-    this.startBtn.onclick = () => {
+    document.getElementById("startBtn").onclick = () => {
       this.game.running = true;
     };
 
-    this.pauseBtn.onclick = () => {
+    document.getElementById("pauseBtn").onclick = () => {
       this.game.running = false;
     };
 
-    this.restartBtn.onclick = () => {
+    document.getElementById("restartBtn").onclick = () => {
       this.game.setup(this.sketch);
       this.game.running = true
     };
+
+    document.getElementById("updateParamsBtn").onclick = () => {
+      this.game.paramsInjector.descriptions.forEach(param=>{
+        let element = document.getElementById(`${param.name}Input`);
+        this.game.paramsInjector.params.swarmParams[param.name] = parseFloat(element.value);
+      });
+      this.game.paramsInjector.updateAll();
+    }
+
   }
 
   createParamInputs() {
     let allParamsTable = document.getElementById('hyper-parameters');
+    if (allParamsTable.rows.length > 1) return;
 
     this.game.paramsInjector.descriptions.forEach((param) => {
 
@@ -53,44 +59,12 @@ class UIManager {
       this.addRow(
         allParamsTable,
         paramLabel.innerHTML,
-        `<input id="${param.name}" type="number" value="${this.game.paramsInjector.params.swarmParams[param.name]}">`,
+        `<input id="${param.name}Input" type="number" value="${this.game.paramsInjector.params.swarmParams[param.name]}">`,
         param.desc
       );
 
     });
 
-  }
-
-  registerSliders() {
-    this.contagionInput = document.getElementById("contagionInput");
-    this.recoveryInput = document.getElementById("recoveryInput");
-    this.deathInput = document.getElementById("deathInput");
-    this.recoveryLossInput = document.getElementById("recoveryLossInput");
-
-    let self = this;
-    let params = this.game.paramsInjector;
-
-    // TODO: Update slider to the values in params.
-
-    this.contagionInput.onchange = function () {
-      params.params.swarmParams.contagionRate = self.contagionInput.value;
-      params.updateAll();
-    };
-
-    this.recoveryInput.onchange = function () {
-      params.params.swarmParams.recoveryRate = self.recoveryInput.value;
-      params.updateAll();
-    };
-
-    this.deathInput.onchange = function () {
-      params.params.swarmParams.deathRate = self.deathInput.value;
-      params.updateAll();
-    };
-
-    this.recoveryLossInput.onchange = function () {
-      params.params.swarmParams.recoveryLossRate = self.recoveryLossInput.value;
-      params.updateAll();
-    };
   }
 
   updateTimeStepInfo() {
