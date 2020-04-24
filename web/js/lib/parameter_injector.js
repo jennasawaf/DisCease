@@ -13,12 +13,12 @@ class ParameterInjector {
         diseaseIntroductionRate: 0,
         forceOfAttraction: 0.002,  // global force
         diseaseIdentificationProbability: 1,
-        contagionRate: 0.1,
+        contagionRate: 0.2,
         visualRange: 30,
         zombificationRate: 0, //0.0001,
-        deathRate: 0.00005,
-        recoveryRate: 0.002,
-        recoveryLossRate: 0.0015,
+        deathRate: 0.01,  // 0.00005,
+        recoveryRate: 0.2,
+        recoveryLossRate: 0.01,
         socialDistanceLength: 10,
         socialDistancingDiseasedTrigger: 0,
         amountOfArtificialSelection: 0.5,
@@ -41,6 +41,22 @@ class ParameterInjector {
         desc: "Number of agents in the simulation.",
       },
       {
+        name: 'contagionRate',
+        desc: "The probability of an agent to get infected by a diseased agent in its visual range. This number gets summed with each diseased agent in the visual range.",
+      },
+      {
+        name: 'recoveryRate',
+        desc: "The probability at which a diseased agent recovers from the disease.",
+      },
+      {
+        name: 'deathRate',
+        desc: "The probability at which a diseased agent dies",
+      },
+      {
+        name: 'recoveryLossRate',
+        desc: "The probability at which a recovered agent becomes susceptible.",
+      },
+      {
         name: 'mutation',
         desc: "The scale of mutations in the genes. This number will be multiplied with a random number (0-1) and added to the genes.",
       },
@@ -57,28 +73,12 @@ class ParameterInjector {
         desc: "The probability with which an agent identifies the health-state of its surrounding agents in its visual range.",
       },
       {
-        name: 'contagionRate',
-        desc: "The probability of an agent to get infected by a diseased agent in its visual range. This number gets summed with each diseased agent in the visual range.",
-      },
-      {
         name: 'visualRange',
         desc: "The side length of the square area regarded as an agent's visual field.",
       },
       {
         name: 'zombificationRate',
         desc: "The probability at which a dead agent becomes a Zombie.",
-      },
-      {
-        name: 'deathRate',
-        desc: "The probability at which a diseased agent dies",
-      },
-      {
-        name: 'recoveryRate',
-        desc: "The probability at which a diseased agent recovers from the disease.",
-      },
-      {
-        name: 'recoveryLossRate',
-        desc: "The probability at which a recovered agent becomes susceptible.",
       },
       {
         name: 'socialDistanceLength',

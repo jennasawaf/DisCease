@@ -22,7 +22,7 @@ class Agent {
     this.numEpisodesSurvived = 1;
 
     // Genetic Information:
-    this.deflections = (deflections != null) ? deflections : this.getPerfectDeflections();
+    this.deflections = (deflections != null) ? deflections : this.getRandomDeflections();
 
   }
 
@@ -171,11 +171,13 @@ class Agent {
   }
 
   getObservableNeighbours(allAgents) {
-
     let neighbors = [];
 
+    if (this.healthState === state.dead)
+      return neighbors;
+
     for (let agent of allAgents) {
-      if (this.isInVisualRange(agent)) {
+      if (agent.healthState !== state.dead && this.isInVisualRange(agent)) {
         neighbors.push(agent);
       }
     }
@@ -194,29 +196,32 @@ class Agent {
   checkContaminated(neighbours) {
 
     let px = this.game.p5.random();
+    let multiplier = 0.005;
 
     if (this.healthState === state.dead)
       return;
 
     if (this.healthState === state.recovered) {
-      if (px <= this.swarm.recoveryLossRate)
+      if (px <= this.swarm.recoveryLossRate * multiplier)
         this.healthState = state.healthy;
     }
 
     if (this.healthState === state.zombie) {
-      if (px <= this.swarm.deathRate)
+      if (px <= this.swarm.deathRate * multiplier)
         this.healthState = state.dead;
       return;
     }
 
     if (this.healthState === state.diseased) {
-      if (px <= this.swarm.params.recoveryRate) {
+
+      if (px <= this.swarm.params.recoveryRate * multiplier) {
         this.healthState = state.recovered;
       }
-      if (px <= this.swarm.params.deathRate) {
+
+      if (px <= this.swarm.params.deathRate * multiplier)
         this.healthState = state.dead;
-      }
-      if (px <= this.swarm.params.zombificationRate) {
+
+      if (px <= this.swarm.params.zombificationRate * multiplier) {
         this.healthState = state.zombie;
       }
       return;
@@ -226,7 +231,7 @@ class Agent {
 
     for (let neighbour of neighbours) {
       if (neighbour.healthState === state.diseased || neighbour.healthState === state.zombie) {
-        totalContagion += this.swarm.contagionRate / 50;
+        totalContagion += this.swarm.contagionRate * multiplier;
       }
     }
 
