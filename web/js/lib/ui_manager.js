@@ -1,18 +1,20 @@
 class UIManager {
   constructor(game) {
     this.game = game;
+    this.sketch = game.sketch;
     this.params = this.game.paramsInjector.params.uiParams;
 
-    this.sketch = null;
-
-    this.createParamInputs();
     this.episodeStatsTable = document.getElementById('episodeStats');
     this.graphsRef = document.getElementById('graphs');
-
     this.currentEpisodePopulationChart = null;
-
+    this.startBtn = document.getElementById("startBtn");
+    this.pauseBtn = document.getElementById("pauseBtn");
+    this.restartBtn = document.getElementById("restartBtn");
+    this.updateParamsBtn = document.getElementById("updateParamsBtn");
 
     this.initEpisodeCharts();
+    this.createParamInputs();
+    this.setButtonFunctions();
 
   }
 
@@ -22,6 +24,21 @@ class UIManager {
     let canvas = this.sketch.createCanvas(this.params.side, this.params.side);
     canvas.parent('sketch-holder');
 
+  }
+
+  setButtonFunctions() {
+    this.startBtn.onclick = () => {
+      this.game.running = true;
+    };
+
+    this.pauseBtn.onclick = () => {
+      this.game.running = false;
+    };
+
+    this.restartBtn.onclick = () => {
+      this.game.setup(this.sketch);
+      this.game.running = true
+    };
   }
 
   createParamInputs() {
@@ -41,6 +58,7 @@ class UIManager {
       );
 
     });
+
   }
 
   registerSliders() {
