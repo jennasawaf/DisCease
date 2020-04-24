@@ -37,30 +37,13 @@
 
 
   <div>
-    <div class="col-auto" id="sketch-holder"></div>
-    <div class="row" id="graphs">
-      <!--TODO: Insert current episode line-graph here-->
+    <div id="sketch-holder"></div>
+    <div>
+      <table id="hyper-parameters" class="table">
+        <tr><th>Param</th><th>Value</th><th>Description</th></tr>
+      </table>
     </div>
-    <div class="row">
-      <div class="col-4" id="hyper-parameters">
-        <div>
-          <label for="contagionInput">Contagion Rate</label>
-          <input type="number" step="0.00001" min="0" max="1" value = "0.1" id="contagionInput">
-        </div>
-        <div>
-          <label for="recoveryInput">Recovery Rate</label>
-          <input type="number" step="0.00001" min="0" max="1" value = "0.002" id="recoveryInput">
-        </div>
-        <div>
-          <label for="deathInput">Death Rate</label>
-          <input type="number" step="0.00001" min="0" max="1" value = "0.00005" id="deathInput">
-        </div>
-        <div>
-          <label for="recoveryLossInput">Recovery Loss Rate</label>
-          <input type="number" step="0.00001" min="0" max="1" value = "0.0015" id="recoveryLossInput">
-        </div>
-      </div>
-    </div>
+    <div class="row" id="graphs"></div>
   </div>
   <table id="episodeStats" class="table-sm table-striped table-bordered statsTable">
     <tr>

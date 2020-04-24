@@ -33,6 +33,77 @@ class ParameterInjector {
       },
     };
     this.clients = [];
+
+    this.descriptions = [
+      {
+        name: 'numAgents',
+        desc: "Number of agents in the simulation.",
+      },
+      {
+        name: 'mutation',
+        desc: "The scale of mutations in the genes. This number will be multiplied with a random number (0-1) and added to the genes.",
+      },
+      {
+        name: 'diseaseIntroductionRate',
+        desc: "The probability of a random agent to get diseased unconditionally.",
+      },
+      {
+        name: 'forceOfAttraction',
+        desc: "Attraction force between agents of same type.",
+      },
+      {
+        name: 'diseaseIdentificationProbability',
+        desc: "The probability with which an agent identifies the health-state of its surrounding agents in its visual range.",
+      },
+      {
+        name: 'contagionRate',
+        desc: "The probability of an agent to get infected by a diseased agent in its visual range. This number gets summed with each diseased agent in the visual range.",
+      },
+      {
+        name: 'visualRange',
+        desc: "The side length of the square area regarded as an agent's visual field.",
+      },
+      {
+        name: 'zombificationRate',
+        desc: "The probability at which a dead agent becomes a Zombie.",
+      },
+      {
+        name: 'deathRate',
+        desc: "The probability at which a diseased agent dies",
+      },
+      {
+        name: 'recoveryRate',
+        desc: "The probability at which a diseased agent recovers from the disease.",
+      },
+      {
+        name: 'recoveryLossRate',
+        desc: "The probability at which a recovered agent becomes susceptible.",
+      },
+      {
+        name: 'socialDistanceLength',
+        desc: "The distance at which the agents would want to distance themselves.",
+      },
+      {
+        name: 'socialDistancingDiseasedTrigger',
+        desc: "The fraction of diseased agents in the system when reached, social distancing will be enabled.",
+      },
+      {
+        name: 'amountOfArtificialSelection',
+        desc: "The fraction of the best agents to be picked for next episode.",
+      },
+      {
+        name: 'amountOfOffSprings',
+        desc: "The fraction of agents to be replicated with mutation.",
+      },
+      {
+        name: 'strictDistancingMultiplier',
+        desc: "[0-1] The ",
+      },
+      {
+        name: 'dontOverlap',
+        desc: "[0-1] Agents don't overlap if this value is 1.",
+      },
+    ]
   }
 
   static getInstance() {

@@ -5,7 +5,7 @@ class UIManager {
 
     this.sketch = null;
 
-    this.registerSliders();
+    this.createParamInputs();
     this.episodeStatsTable = document.getElementById('episodeStats');
     this.graphsRef = document.getElementById('graphs');
 
@@ -22,6 +22,25 @@ class UIManager {
     let canvas = this.sketch.createCanvas(this.params.side, this.params.side);
     canvas.parent('sketch-holder');
 
+  }
+
+  createParamInputs() {
+    let allParamsTable = document.getElementById('hyper-parameters');
+
+    this.game.paramsInjector.descriptions.forEach((param) => {
+
+      let paramLabel = document.createElement('label');
+      paramLabel.setAttribute('for', `${param.name}Input`);
+      paramLabel.innerHTML = param.name;
+
+      this.addRow(
+        allParamsTable,
+        paramLabel.innerHTML,
+        `<input id="${param.name}" type="number" value="${this.game.paramsInjector.params.swarmParams[param.name]}">`,
+        param.desc
+      );
+
+    });
   }
 
   registerSliders() {
@@ -50,7 +69,7 @@ class UIManager {
       params.updateAll();
     };
 
-    this.recoveryLossInput.onchange = function() {
+    this.recoveryLossInput.onchange = function () {
       params.params.swarmParams.recoveryLossRate = self.recoveryLossInput.value;
       params.updateAll();
     };
@@ -80,7 +99,7 @@ class UIManager {
     let populations = this.game.stats.currentPopulation;
     let numAgents = this.game.swarmManager.numAgents;
     if (this.game.episodeManager.episode === 1) return;
-    this.addRow(
+    this.addRow(this.episodeStatsTable,
       this.game.episodeManager.episode - 1,
       (this.game.stats.totalDiseased / numAgents).toFixed(2),
       (populations.diseased / numAgents).toFixed(2),
@@ -162,11 +181,10 @@ class UIManager {
     this.createHeatmap(heatmapConfig);
   }
 
-  addRow(...values) {
-    let row = this.episodeStatsTable.insertRow();
+  addRow(tableReference, ...values) {
+    let row = tableReference.insertRow();
     for (let i = 0; i < values.length; i++) {
-      let column = row.insertCell(i);  // TODO: Check if column var is necessary?
-      column.innerHTML = values[i];
+      row.insertCell(i).innerHTML = values[i];
     }
   }
 
