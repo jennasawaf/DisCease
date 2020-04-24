@@ -22,7 +22,7 @@ class Agent {
     this.numEpisodesSurvived = 1;
 
     // Genetic Information:
-    this.deflections = (deflections != null) ? deflections : this.getRandomDeflections();
+    this.deflections = (deflections != null) ? deflections : this.getPerfectDeflections();
 
   }
 
@@ -84,7 +84,7 @@ class Agent {
       let socialDistance = params.socialDistanceLength;
 
       // Check if like agents have social distancing
-      if (this.isHealthStateLogicallySame(this, agent))
+      if (Agent.isHealthStateLogicallySame(this.healthState, agent.healthState))
         socialDistance *= params.socialDistanceOfLikeAgents;
 
       pushDistance += socialDistance;
@@ -115,15 +115,15 @@ class Agent {
     this.acceleration.mult(0);
   }
 
-  isHealthStateLogicallySame(agent1, agent2) {
+  static isHealthStateLogicallySame(agent1Health, agent2Health) {
     if (
-      (agent1.healthState === state.healthy || agent1.healthState === state.recovered) &&
-      (agent2.healthState === state.healthy || agent2.healthState === state.recovered)
+      (agent1Health === state.healthy || agent1Health === state.recovered) &&
+      (agent2Health === state.healthy || agent2Health === state.recovered)
     ) return true;
 
     if (
-      (agent1.healthState === state.diseased || agent1.healthState === state.zombie) &&
-      (agent2.healthState === state.diseased || agent2.healthState === state.zombie)
+      (agent1Health === state.diseased || agent1Health === state.zombie) &&
+      (agent2Health === state.diseased || agent2Health === state.zombie)
     ) return true;
   }
 

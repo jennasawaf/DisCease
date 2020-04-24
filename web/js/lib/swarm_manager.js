@@ -137,8 +137,17 @@ class SwarmManager {
   }
 
   getGroupCenter(group) {
-    let side = this.game.paramsInjector.params.uiParams.side;
-    return this.game.p5.createVector(side / 2, side / 2); // TODO: This is a global center. Must be a group's center. group = agents of same health state
+    let meanX = 0;
+    let meanY = 0;
+    this.agents.forEach(agent=>{
+      if (Agent.isHealthStateLogicallySame(agent.healthState, group)) {
+        meanX += agent.location.x;
+        meanY += agent.location.y;
+      }
+    });
+    meanX /= this.agents.length;
+    meanY /= this.agents.length;
+    return this.game.p5.createVector(meanX, meanY);
   }
 
   getGroupCenterVector(agent, center) {
