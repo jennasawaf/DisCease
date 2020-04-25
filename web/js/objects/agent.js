@@ -22,7 +22,7 @@ class Agent {
     this.numEpisodesSurvived = 1;
 
     // Genetic Information:
-    this.deflections = (deflections != null) ? deflections : this.getRandomDeflections();
+    this.deflections = (deflections != null) ? deflections : this.getPerfectDeflections();
 
   }
 

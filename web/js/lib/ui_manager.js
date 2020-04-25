@@ -7,6 +7,7 @@ class UIManager {
     this.episodeStatsTable = document.getElementById('episodeStats');
     this.graphsRef = document.getElementById('graphs');
     this.currentEpisodePopulationChart = null;
+    this.currentEpisodeScorePlot = null;
     this.episodesChart = null;
 
     this.initEpisodeCharts();
@@ -107,6 +108,14 @@ class UIManager {
     this.episodesChart.data.datasets[0].data.push(this.game.stats.meanScore);
     this.episodesChart.data.labels.push(this.game.episodeManager.episode);
     this.episodesChart.update();
+
+    let binAvgs = [];
+    let binCounts = [];
+    this.game.stats.scoreDensity.forEach(bin=>{binAvgs.push(bin.avg); binCounts.push(bin.count)});
+    this.currentEpisodeScorePlot.data.datasets[0].data = binCounts;
+    this.currentEpisodeScorePlot.data.labels = binAvgs;
+    this.currentEpisodeScorePlot.update();
+
   }
 
   initEpisodeCharts() {
@@ -177,6 +186,37 @@ class UIManager {
       data: this.game.stats.currentEpochAvgGenes,
     };
     this.createHeatmap(heatmapConfig);
+
+    this.currentEpisodeScorePlot = this.addChartToPage({
+      type: 'line',
+      data: {
+        labels: [],
+        datasets: [{
+          label: 'score',
+          data: [],
+        }]
+      },
+      options: {
+        title: {
+          display: true,
+          text: `Episode: ${this.game.episodeManager.episode} | Scores`
+        },
+        scales: {
+          yAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: '# of agents'
+            }
+          }],
+          xAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'Score'
+            }
+          }],
+        },
+      }
+    })
   }
 
   initAllEpisodesChart() {

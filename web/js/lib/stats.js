@@ -9,6 +9,7 @@ class Stats {
     };
     this.totalDiseased = 0;
     this.meanScore = null;
+    this.scoreDensity = []
   }
 
   perTimeStep() {
@@ -19,9 +20,51 @@ class Stats {
   perEpisode() {
     this.currentEpochAvgGenes = this.collectMeanGenes();
     this.meanScore = this.getMeanScore();
+    this.scoreDensity = this.getScoreDensity();
 
     this.game.uiManager.updateEpisodeInfo();
     this.totalDiseased = 0;
+  }
+
+  getScoreDensity() {
+    let scores = [];
+    this.game.swarmManager.agents.forEach(agent => scores.push(agent.getScore()));
+    scores.sort();
+
+    let bins = [];
+    let binCount = 0;
+    let interval = .005;
+    let min = Math.min(...scores);
+    let max = Math.max(...scores);
+
+    //Setup Bins
+    for (let i = min; i < max; i += interval) {
+      bins.push({
+        binNum: binCount,
+        minNum: i,
+        maxNum: i + interval,
+        avg: 0,
+        count: 0
+      });
+      binCount++;
+    }
+
+    //Loop through data and add to bin's count
+    for (let i = 0; i < scores.length; i++) {
+      let item = scores[i];
+      for (let j = 0; j < bins.length; j++) {
+        let bin = bins[j];
+        if (item > bin.minNum && item <= bin.maxNum) {
+          bin.avg = ((bin.avg * bin.count) + item) / (bin.count + 1);
+          bin.count++;
+        }
+      }
+    }
+
+    bins.sort((a, b) => a.avg - b.avg);
+    bins = bins.filter(bin=>bin.avg > 0);
+
+    return bins;
   }
 
   getMeanScore() {
