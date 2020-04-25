@@ -26,7 +26,7 @@ class Stats {
 
   getMeanScore() {
     let meanScore = 0;
-    this.game.swarmManager.agents.forEach(agent => meanScore += agent.getScore());
+    this.game.swarmManager.agents.forEach(agent => meanScore += agent.getScore() / agent.numEpisodesSurvived);
     meanScore /= this.game.swarmManager.agents.length;
     return meanScore;
   }

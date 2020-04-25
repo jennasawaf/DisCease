@@ -7,10 +7,12 @@ class UIManager {
     this.episodeStatsTable = document.getElementById('episodeStats');
     this.graphsRef = document.getElementById('graphs');
     this.currentEpisodePopulationChart = null;
+    this.episodesChart = null;
 
     this.initEpisodeCharts();
     this.createParamInputs();
     this.setButtonFunctions();
+    this.initAllEpisodesChart();
 
   }
 
@@ -37,7 +39,7 @@ class UIManager {
     };
 
     document.getElementById("updateParamsBtn").onclick = () => {
-      this.game.paramsInjector.descriptions.forEach(param=>{
+      this.game.paramsInjector.descriptions.forEach(param => {
         let element = document.getElementById(`${param.name}Input`);
         this.game.paramsInjector.params.swarmParams[param.name] = parseFloat(element.value);
       });
@@ -101,6 +103,10 @@ class UIManager {
       this.game.stats.meanScore.toFixed(4),
     );
     this.initEpisodeCharts();
+
+    this.episodesChart.data.datasets[0].data.push(this.game.stats.meanScore);
+    this.episodesChart.data.labels.push(this.game.episodeManager.episode);
+    this.episodesChart.update();
   }
 
   initEpisodeCharts() {
@@ -171,6 +177,46 @@ class UIManager {
       data: this.game.stats.currentEpochAvgGenes,
     };
     this.createHeatmap(heatmapConfig);
+  }
+
+  initAllEpisodesChart() {
+    this.episodesChart = this.addChartToPage({
+      type: 'line',
+      data: {
+        labels: [],
+        datasets: [{
+          label: 'meanScore',
+          data: [],
+          backgroundColor: 'transparent',
+          borderColor: 'blue',
+        }]
+      },
+      options: {
+        title: {
+          display: true,
+          text: `Score per episode`
+        },
+        elements: {
+          line: {
+            tension: 0
+          }
+        },
+        scales: {
+          yAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'meanScore'
+            }
+          }],
+          xAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'Episodes'
+            }
+          }],
+        },
+      }
+    });
   }
 
   addRow(tableReference, ...values) {
