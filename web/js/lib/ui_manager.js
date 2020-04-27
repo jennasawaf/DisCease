@@ -14,6 +14,7 @@ class UIManager {
 
     this.initEpisodeCharts();
     this.createParamInputs();
+    this.createGameTypeButtons();
     this.setButtonFunctions();
     this.initAllEpisodesChart();
 
@@ -27,7 +28,7 @@ class UIManager {
 
   }
 
-  update(){
+  updateParams() {
     this.game.paramsInjector.descriptions.forEach((param) => {
       let paramInput = document.getElementById(`${param.name}Input`);
       paramInput.value = this.game.paramsInjector.params.swarmParams[param.name];
@@ -79,6 +80,25 @@ class UIManager {
 
   }
 
+  createGameTypeButtons() {
+    let gameTypesTable = document.getElementById('gameTypesTable');
+    if (gameTypesTable.rows.length > 1) return;
+
+    this.game.paramsInjector.gameTypeParams.forEach((param, index) => {
+      this.addRow(
+        gameTypesTable,
+        index,
+        param.desc,
+        `<button id="updateGameType${index}">Update</button>`
+      );
+    });
+
+    for (let i = 0; i < this.game.paramsInjector.gameTypeParams.length; i++) {
+      let gameButton = document.getElementById(`updateGameType${i}`);
+      gameButton.onclick = () => this.changeGameType(i);
+    }
+  }
+
   updateTimeStepInfo() {
 
     let populations = this.game.stats.currentPopulation;
@@ -120,7 +140,10 @@ class UIManager {
 
     let binAvgs = [];
     let binCounts = [];
-    this.game.stats.scoreDensity.forEach(bin=>{binAvgs.push(bin.avg); binCounts.push(bin.count)});
+    this.game.stats.scoreDensity.forEach(bin => {
+      binAvgs.push(bin.avg);
+      binCounts.push(bin.count)
+    });
     this.currentEpisodeScorePlot.data.datasets[0].data = binCounts;
     this.currentEpisodeScorePlot.data.labels = binAvgs;
     this.currentEpisodeScorePlot.update();
@@ -414,6 +437,14 @@ class UIManager {
     this.graphsRef.prepend(chartDiv);
 
     return timeStepChart;
+  }
+
+  changeGameType(id) {
+    let params = this.game.paramsInjector.gameTypeParams[id].params;
+    for (let key in params)
+      this.game.paramsInjector.params.swarmParams[key] = params[key];
+    this.game.paramsInjector.updateAll();
+    this.game.setup(this.sketch);
   }
 
 }

@@ -36,23 +36,28 @@
   </div>
 
 
+  <div id="sketch-holder"></div>
+
   <div>
-    <div id="sketch-holder"></div>
-    <div>
-      <button id="startBtn">Start</button>
-      <button id="pauseBtn">Pause</button>
-      <button id="restartBtn">Restart</button>
-      <button id="updateParamsBtn">Update Params</button>
-    </div>
-    <table id="hyper-parameters" class="table">
-      <tr>
-        <th>Param</th>
-        <th>Value</th>
-        <th>Description</th>
-      </tr>
-    </table>
-    <div class="row" id="graphs"></div>
+    <button id="startBtn">Start</button>
+    <button id="pauseBtn">Pause</button>
+    <button id="restartBtn">Restart</button>
+    <button id="updateParamsBtn">Update Params</button>
   </div>
+
+  <table id="hyper-parameters" class="table">
+    <tr>
+      <th>Param</th>
+      <th>Value</th>
+      <th>Description</th>
+    </tr>
+  </table>
+
+  <table id="gameTypesTable" class="table">
+    <tr><th>Type</th><th>Description</th><th></th></tr>
+  </table>
+
+  <div class="row" id="graphs"></div>
   <table id="episodeStats" class="table-sm table-striped table-bordered statsTable">
     <tr>
       <th>Episode</th>

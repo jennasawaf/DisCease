@@ -26,6 +26,7 @@ class ParameterInjector {
         deflectionStrength: 0.1,
         dontOverlap: 0,
         socialDistanceOfLikeAgents: 0,
+        perfectDeflections: 1,
       },
       uiParams: {
         side: 300,
@@ -108,7 +109,20 @@ class ParameterInjector {
         name: 'socialDistanceOfLikeAgents',
         desc: "[0-1] The effect of social distancing between agents of same group.",
       },
+      {
+        name: 'perfectDeflections',
+        desc: "All agents will have perfect deflections if this value is greater than 0.",
+      },
     ]
+
+    this.gameTypeParams = [
+      {
+        desc: "",
+        params: {
+          dontOverlap: 1,
+        }
+      }
+    ];
   }
 
   static getInstance() {
