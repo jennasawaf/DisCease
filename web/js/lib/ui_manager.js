@@ -1,6 +1,8 @@
 class UIManager {
   constructor(game) {
     this.game = game;
+    game.paramsInjector.register(this);
+
     this.sketch = game.sketch;
     this.params = this.game.paramsInjector.params.uiParams;
 
@@ -23,6 +25,13 @@ class UIManager {
     let canvas = this.sketch.createCanvas(this.params.side, this.params.side);
     canvas.parent('sketch-holder');
 
+  }
+
+  update(){
+    this.game.paramsInjector.descriptions.forEach((param) => {
+      let paramInput = document.getElementById(`${param.name}Input`);
+      paramInput.value = this.game.paramsInjector.params.swarmParams[param.name];
+    });
   }
 
   setButtonFunctions() {
