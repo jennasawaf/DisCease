@@ -22,11 +22,7 @@ class Agent {
     this.numEpisodesSurvived = 1;
 
     // Genetic Information:
-    if (deflections != null)
-      this.deflections = deflections;
-    else if (this.swarm.params.perfectDeflections > 0)
-      this.deflections = this.getPerfectDeflections();
-    else this.deflections = this.getRandomDeflections();
+    this.deflections = this.getDeflections(deflections);
 
   }
 
@@ -43,6 +39,16 @@ class Agent {
 
   getScore() {
     return this.numEpisodesSurvived / (this.numDiseased * this.numDiseaseSpread);
+  }
+
+  getDeflections(deflections){
+    if (deflections != null)
+      return deflections;
+    else if (this.swarm.params.perfectDeflections > 0)
+      return this.getPerfectDeflections();
+    else if (this.swarm.params.perfectDeflections === 0)
+      return this.getZeroDeflections();
+    else this.deflections = this.getRandomDeflections();
   }
 
   setVelocity(velocity) {
@@ -135,6 +141,13 @@ class Agent {
 
     if (neighbours.length === 1)
       return this.game.p5.createVector(0, 0);
+
+    if (this.swarm.params.perfectDeflections === 0) {
+      if (this.game.p5.random() > 0.05)
+        return this.game.p5.createVector(0, 0);
+      let side = this.game.paramsInjector.params.uiParams.side;
+      return this.game.p5.createVector(this.game.p5.random(-side, side), this.game.p5.random(-side, side));
+    }
 
     let nextMove = this.game.p5.createVector(0, 0);
 
@@ -263,11 +276,6 @@ class Agent {
       case state.dead:
         return 200;
     }
-  }
-
-  getVectorToCenter() {
-    let center = createVector(width / 2, height / 2);
-    return p5.Vector.sub(center, this.location);
   }
 
   getZeroDeflections() {

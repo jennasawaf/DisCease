@@ -12,11 +12,14 @@ class UIManager {
     this.currentEpisodeScorePlot = null;
     this.episodesChart = null;
 
-    this.initEpisodeCharts();
     this.createParamInputs();
     this.createGameTypeButtons();
     this.setButtonFunctions();
-    this.initAllEpisodesChart();
+
+    if (this.params.createGraphs){
+      this.initEpisodeCharts();
+      this.initAllEpisodesChart();
+    }
 
   }
 
@@ -107,6 +110,8 @@ class UIManager {
     // TODO: Put these population numbers into a graph.
     $("#message_p").html(`Episode: ${episodeNumber}\nHealthy: ${populations.healthy}, dis: ${populations.diseased}, dead: ${populations.dead}, recovered: ${populations.recovered}`);
 
+    if (! this.params.createGraphs) return;
+
     if (this.game.episodeManager.timeStep % 10 === 0) {
       this.currentEpisodePopulationChart.data.datasets[0].data.push(populations.healthy);
       this.currentEpisodePopulationChart.data.datasets[1].data.push(populations.diseased);
@@ -132,6 +137,9 @@ class UIManager {
       ((populations.healthy + populations.recovered) / numAgents).toFixed(2),
       this.game.stats.meanScore.toFixed(4),
     );
+
+    if (! this.params.createGraphs) return;
+
     this.initEpisodeCharts();
 
     this.episodesChart.data.datasets[0].data.push(this.game.stats.meanScore);
@@ -213,11 +221,13 @@ class UIManager {
     };
     this.currentEpisodePopulationChart = this.addChartToPage(populationChart);
 
-    let heatmapConfig = {
-      title: `Episode: ${this.game.episodeManager.episode} | Mean Genes`,
-      data: this.game.stats.currentEpochAvgGenes,
-    };
-    this.createHeatmap(heatmapConfig);
+    if (this.game.paramsInjector.params.swarmParams.perfectDeflections < 0) {
+      let heatmapConfig = {
+        title: `Episode: ${this.game.episodeManager.episode} | Mean Genes`,
+        data: this.game.stats.currentEpochAvgGenes,
+      };
+      this.createHeatmap(heatmapConfig);
+    }
 
     this.currentEpisodeScorePlot = this.addChartToPage({
       type: 'line',

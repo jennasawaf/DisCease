@@ -11,6 +11,7 @@ class EpisodeManager {
     this.episode = 1;
     this.timeStep = 1;
     this.frame = 0;
+    this.totalEpisodes = this.game.paramsInjector.params.episodeParams.totalEpisodes;
 
   }
 
@@ -36,6 +37,9 @@ class EpisodeManager {
         this.episode++;
         this.timeStep = 1;
         this.frame = 1;
+
+        if (this.episode > this.totalEpisodes)
+          this.game.running = false;
       }
     }
   }

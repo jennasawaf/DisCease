@@ -5,10 +5,11 @@ class ParameterInjector {
     this.params = {
       episodeParams: {
         framesPerTimeStep: 3,
-        timeStepsPerEpisode: 300,
+        timeStepsPerEpisode: 1000,
+        totalEpisodes: 30,
       },
       swarmParams: {
-        numAgents: 150,
+        numAgents: 100,
         mutation: 0.1,
         diseaseIntroductionRate: 0,
         forceOfAttraction: 0.002,  // global force
@@ -32,6 +33,7 @@ class ParameterInjector {
         side: 300,
         fps: 200,
         boxPadding: 10,
+        createGraphs: true,
       },
     };
     this.clients = [];
@@ -95,7 +97,7 @@ class ParameterInjector {
       },
       {
         name: 'amountOfOffSprings',
-        desc: "The fraction of agents to be replicated with mutation.",
+        desc: "The fraction of new agents to be replicated with mutation.",
       },
       {
         name: 'deflectionStrength',
@@ -111,7 +113,7 @@ class ParameterInjector {
       },
       {
         name: 'perfectDeflections',
-        desc: "All agents will have perfect deflections if this value is greater than 0.",
+        desc: "All agents will have perfect deflections if this value is greater than 0, No deflections if 0, Random deflections if less than 0.",
       },
     ]
 

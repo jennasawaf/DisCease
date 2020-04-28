@@ -118,7 +118,11 @@ class SwarmManager {
   }
 
   introduceDisease(episodeManager) {
-    if (episodeManager.frame === 1 || this.game.stats.currentPopulation.diseased === 0 || this.game.p5.random() <= this.diseaseIntroductionRate) {
+    if (
+      (episodeManager.frame === 1) ||
+      (this.params.perfectDeflections < 0 && this.game.stats.currentPopulation.diseased === 0) ||
+      (this.game.p5.random() <= this.diseaseIntroductionRate)
+    ) {
       let randomAgent = this.game.p5.random(this.agents);
       if (randomAgent.healthState !== state.dead)
         randomAgent.healthState = state.diseased;
