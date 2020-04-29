@@ -38,7 +38,7 @@ class Agent {
   }
 
   getScore() {
-    return this.numEpisodesSurvived / (this.numDiseased * this.numDiseaseSpread);
+    return this.numEpisodesSurvived / (this.numDiseased + this.numDiseaseSpread);
   }
 
   getDeflections(deflections){
@@ -48,7 +48,7 @@ class Agent {
       return this.getPerfectDeflections();
     else if (this.swarm.params.perfectDeflections === 0)
       return this.getZeroDeflections();
-    else this.deflections = this.getRandomDeflections();
+    else return this.getRandomDeflections();
   }
 
   setVelocity(velocity) {

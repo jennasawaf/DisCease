@@ -221,13 +221,13 @@ class UIManager {
     };
     this.currentEpisodePopulationChart = this.addChartToPage(populationChart);
 
-    if (this.game.paramsInjector.params.swarmParams.perfectDeflections < 0) {
+    // if (this.game.paramsInjector.params.swarmParams.perfectDeflections < 0) {
       let heatmapConfig = {
         title: `Episode: ${this.game.episodeManager.episode} | Mean Genes`,
         data: this.game.stats.currentEpochAvgGenes,
       };
       this.createHeatmap(heatmapConfig);
-    }
+    // }
 
     this.currentEpisodeScorePlot = this.addChartToPage({
       type: 'line',
