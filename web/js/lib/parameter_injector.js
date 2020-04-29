@@ -5,8 +5,8 @@ class ParameterInjector {
     this.params = {
       episodeParams: {
         framesPerTimeStep: 3,
-        timeStepsPerEpisode: 600,
-        totalEpisodes: 50,
+        timeStepsPerEpisode: 1500,
+        totalEpisodes: 5,
       },
       swarmParams: {
         numAgents: 100,
@@ -472,31 +472,7 @@ class ParameterInjector {
           socialDistancingDiseasedTrigger: 0,
           amountOfArtificialSelection: 0.5,
           amountOfOffSprings: 0.8,
-          deflectionStrength: 0.1,
-          dontOverlap: 0,
-          socialDistanceOfLikeAgents: 0,
-          perfectDeflections: -1,
-        }
-      },
-      {
-        desc: "SN16",
-        params: {
-          numAgents: 100,
-          mutation: 0.1,
-          diseaseIntroductionRate: 0,
-          forceOfAttraction: 0.002,  // global force
-          diseaseIdentificationProbability: 1,
-          contagionRate: 0.25,
-          visualRange: 30,
-          zombificationRate: 0, //0.0001,
-          deathRate: 0.01,
-          recoveryRate: 0.1,
-          recoveryLossRate: 0.01,
-          socialDistanceLength: 0,
-          socialDistancingDiseasedTrigger: 0,
-          amountOfArtificialSelection: 0.2,
-          amountOfOffSprings: 0.8,
-          deflectionStrength: 0.1,
+          deflectionStrength: 0.3,
           dontOverlap: 0,
           socialDistanceOfLikeAgents: 0,
           perfectDeflections: -1,

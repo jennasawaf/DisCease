@@ -42,6 +42,7 @@ class Agent {
   }
 
   getDeflections(deflections){
+    // return this.getHerdImmunityDeflections();
     if (deflections != null)
       return deflections;
     else if (this.swarm.params.perfectDeflections > 0)
@@ -400,6 +401,12 @@ class Agent {
         'dead': 0,
       },
     }
+  }
+
+  getHerdImmunityDeflections() {
+    let perfect = this.getPerfectDeflections();
+    perfect['recovered']['recovered'] = -0.5;
+    return perfect;
   }
 
 }
