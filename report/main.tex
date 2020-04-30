@@ -107,7 +107,7 @@
     \subsection{Life-Cycle of An Agent}\label{subsec:life-cycle-of-an-agent}
     An agent can be in one of 4 states - healthy, diseased, recovered and dead.
     Every agent starts out healthy.
-    Each agent has a circular field of vision around it with radius greater than its own body as seen in figure\ref{fig:3.1a}.
+    Each agent has a circular field of vision around it with radius greater than its own body as seen in Figure \ref{fig:3.1a}.
     Every other agent that lies inside this field of vision is the agent's neighbour.
     When the agent is healthy and its neighbour diseased, there exists a probability proportional to the contagionRate with which the agent gets infected.
     As the number of diseased neighbours increase, this probability gets accumulated and it becomes more likely for the agent to get infected.
@@ -118,7 +118,7 @@
 
     \subsection{Social Distancing}\label{subsec:social-distancing}
     Next, we introduced a concept of social-distancing\cite{3b1b}.
-    Here, agents will define a boundary circle around them with radius less than their visual field radius as seen in figure\ref{fig:3.1b}.
+    Here, agents define a circular boundary around them with radius less than their visual field as seen in Figure \ref{fig:3.1b}.
     No other agent can move inside this boundary.
     This ensures that the agents always maintain a certain distance from each other.
     This is a loose approximation of social distancing.
@@ -153,12 +153,12 @@
     Finally, we end up with a force value for each pair of states except the dead state i.e.
     \{(healthy, diseased), (healthy, recovered), \ldots \}, a total of 9 scalar values.
     They are represented in a 3x3 matrix where each row represents the state of the agent and each column representing states of its neighbour.
-    We can see these deflection matrix in the figure\ref{fig:4.2}.
+    We can see these deflection matrix in the Figure \ref{fig:4.2}.
     When there are more than one neighbour in the visual field, then the deflection force vectors from all the neighbours are summed and normalized for the final deflection force.
 
     One can imagine how perfect deflections for an agent might look like.
     We defined perfect deflections as attraction on the pairs: \{(healthy, healthy), (healthy, recovered), (recovered, recovered), (diseased, diseased)\} and repulsion on pairs: \{(healthy, diseased), (recovered, diseased)\}.
-    This deflection matrix can be seen in figure\ref{fig:4.2c}.
+    This deflection matrix can be seen in Figure \ref{fig:4.2c}.
     This ensures that no healthy or recovered agent tries to stick around with a diseased agent, thus, reducing the spread of the disease.
 
     \subsection{Herd Immunity}\label{subsec:herd-immunity}
@@ -256,17 +256,17 @@
         \label{fig:4.1}
     \end{figure}
 
-    \textbf{SN1:} The base vanilla model is tuned to match the standard SIR model as seen in figure\ref{fig:SN1}.
+    \textbf{SN1:} The base vanilla model is tuned to match the standard SIR model as seen in Figure \ref{fig:SN1}.
     We will be comparing other cases with this base model to make judgements.
-    \textbf{SN2:} From the figures\ref{fig:4.1} and\ref{fig:SN2}, we see that when death rate of a disease is high, then the disease doesn't spread as much.
+    \textbf{SN2:} From the Figures \ref{fig:4.1} and\ref{fig:SN2}, we see that when death rate of a disease is high, then the disease doesn't spread as much.
     This is good for the goal of this project, but many agents die in the process.
     \textbf{SN3:} A better outcome is seen in the next case where we increased the recovery rate to a high value.
-    As in figure\ref{fig:SN3} the spread is small because as agents get infected, the soon recover and do not further spread the disease.
-    \textbf{SN4:} We then lowered the recovery rate and the outcome was disastrous as seen in figure\ref{fig:SN4}.
-    \textbf{SN5:} Having high contagion rate is not as bad as having low recovery rate, this is seen in the figures\ref{fig:4.1} and figure\ref{fig:SN5}.
+    As in Figure \ref{fig:SN3} the spread is small because as agents get infected, the soon recover and do not further spread the disease.
+    \textbf{SN4:} We then lowered the recovery rate and the outcome was disastrous as seen in Figure \ref{fig:SN4}.
+    \textbf{SN5:} Having high contagion rate is not as bad as having low recovery rate, this is seen in the Figures \ref{fig:4.1} and Figure \ref{fig:SN5}.
     \textbf{SN6:} However, the worst case of all turned out to be the one where the recovered agents lose their immunity quickly.
-    As seen in figure\ref{fig:SN6}, the number of diseased agents does not drop throughout the run.
-    \textbf{SN7:} When we enabled length based social distancing\cite{3b1b}, the system took longer to reach outbreak (the point in the population graph where number of diseased is equal to the number of healthy) as seen in figure\ref{fig:SN7}.
+    As seen in Figure \ref{fig:SN6}, the number of diseased agents does not drop throughout the run.
+    \textbf{SN7:} When we enabled length based social distancing\cite{3b1b}, the system took longer to reach outbreak (the point in the population graph where number of diseased is equal to the number of healthy) as seen in Figure \ref{fig:SN7}.
     Although social distancing helped prolong the spread of the disease, the system still had an outbreak.
     Increasing the social distance made the outbreak happen later in time.
 
@@ -314,12 +314,12 @@
     All the healthy and recovered agents form small groups from randomness.
     They resist coming close to diseased agents, which form their own groups.
     Formation of these groups is analogous to forming social gatherings between healthy agents and restraining diseased agents into quarantine cells.
-    Ideally, this type of behaviour will restrict the spread of the disease completely and that is what we see in some simulations shown in figure\ref{fig:SN8T1}.
+    Ideally, this type of behaviour will restrict the spread of the disease completely and that is what we see in some simulations shown in Figure \ref{fig:SN8T1}.
     However, there is one major flaw in this system.
     Whenever an agent inside a group of healthy ones gets infected, then almost all the agents in that group get infected.
     The diseased population suddenly bursts into a large number.
-    We see this in figure\ref{fig:SN8T3}.
-    Sometimes, this system spreads the disease and follows a similar trend to the base model, this is seen in figure\ref{fig:SN8T2}.
+    We see this in Figure \ref{fig:SN8T3}.
+    Sometimes, this system spreads the disease and follows a similar trend to the base model, this is seen in Figure \ref{fig:SN8T2}.
 
     We then modified this model with a few variations.
     \textbf{SN9:} We removed the overlapping rule and made the agents collide with each other.
@@ -329,8 +329,8 @@
     \textbf{SN11:} We then enabled social distancing after 20\% of the population gets diseased\cite{3b1b}.
     This is better than the base model, but suffers the problems of SN9.
     \textbf{SN12:} Now, we enabled overlapping and added length based social distancing to agents of different state.
-    This produced the most robust model we have seen in our experiments as seen in the figure\ref{fig:4.1}.
-    In half of the cases, the disease does not even cause an outbreak, similar to the figure\ref{fig:SN8T1}.
+    This produced the most robust model we have seen in our experiments as seen in the Figure \ref{fig:4.1}.
+    In half of the cases, the disease does not even cause an outbreak, similar to the Figure \ref{fig:SN8T1}.
     \textbf{SN13:} Since the perfect deflection model is so good, we tried increasing the strength of the deflections by 3.
     The agents immediately become flock-like and form dense groups.
     The disease-burst problem gets worse in this scenario and majority of the population gets diseased at once.
@@ -371,14 +371,14 @@
     \end{figure}
 
     \textbf{SN14  \& SN15:} Finally, we ran the evolutionary algorithm and the results were quite outstanding.
-    The evolution started off with random genes as shown in figure\ref{fig:4.2a}.
-    The population graph at the beginning of the evolution is seen in figure\ref{fig:SN14} which is similar to the base model as expected.
-    After 400 episodes, the model evolved genes shown in figure\ref{fig:4.2b} that are somewhat similar to the perfect deflections defined as figure\ref{fig:4.2c}.
-    We also see in Figure\ref{fig:4.1} that the evolved model performs better than the same model at the beginning of the evolution and is slightly better than the base model, but much weaker than the model of perfect deflection (SN8).
+    The evolution started off with random genes as shown in Figure \ref{fig:4.2a}.
+    The population graph at the beginning of the evolution is seen in Figure \ref{fig:SN14} which is similar to the base model as expected.
+    After 400 episodes, the model evolved genes shown in Figure \ref{fig:4.2b} that are somewhat similar to the perfect deflections defined as Figure \ref{fig:4.2c}.
+    We also see in Figure \ref{fig:4.1} that the evolved model performs better than the same model at the beginning of the evolution and is slightly better than the base model, but much weaker than the model of perfect deflection (SN8).
     The model learned to maintain social distancing in order to prevent the disease.
     This shows that the evolutionary algorithm works.
     The population graph of the evolved model is similar to that of SN8, the system with perfect deflections.
-    The mean score of all the agents in the system keeps increasing overtime as seen in the figure\ref{fig:4.3} due to the selection process.
+    The mean score of all the agents in the system keeps increasing overtime as seen in the Figure \ref{fig:4.3} due to the selection process.
 
     One striking difference that we see in the evolved genes is that the deflection between the recovered agents is repulsive.
     This is exactly what we did to achieve herd immunity.
