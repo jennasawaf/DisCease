@@ -90,7 +90,7 @@ class UIManager {
     this.game.paramsInjector.gameTypeParams.forEach((param, index) => {
       this.addRow(
         gameTypesTable,
-        index,
+        param.title,
         param.desc,
         `<button id="updateGameType${index}">Update</button>`
       );

@@ -119,7 +119,8 @@ class ParameterInjector {
 
     this.gameTypeParams = [
       {
-        desc: "SN1",
+        title: "SN1",
+        desc: "Vanilla base model",
         params: {
           numAgents: 100,
           mutation: 0,
@@ -143,7 +144,8 @@ class ParameterInjector {
         }
       },
       {
-        desc: "SN2",
+        title: "SN2",
+        desc: "High death rate",
         params: {
           numAgents: 100,
           mutation: 0,
@@ -167,7 +169,8 @@ class ParameterInjector {
         },
       },
       {
-        desc: "SN3",
+        title: "SN3",
+        desc: "High recovery rate",
         params: {
           numAgents: 100,
           mutation: 0,
@@ -191,7 +194,8 @@ class ParameterInjector {
         }
       },
       {
-        desc: "SN4",
+        title: "SN4",
+        desc: "Low recovery rate",
         params: {
           numAgents: 100,
           mutation: 0,
@@ -215,7 +219,8 @@ class ParameterInjector {
         }
       },
       {
-        desc: "SN5",
+        title: "SN5",
+        desc: "High contagion rate",
         params: {
           numAgents: 100,
           mutation: 0,
@@ -239,7 +244,8 @@ class ParameterInjector {
         }
       },
       {
-        desc: "SN6",
+        title: "SN6",
+        desc: "High recovery loss rate",
         params: {
           numAgents: 100,
           mutation: 0,
@@ -263,7 +269,8 @@ class ParameterInjector {
         }
       },
       {
-        desc: "SN7",
+        title: "SN7",
+        desc: "Social distancing",
         params: {
           numAgents: 100,
           mutation: 0,
@@ -287,7 +294,8 @@ class ParameterInjector {
         }
       },
       {
-        desc: "SN8",
+        title: "SN8",
+        desc: "Vanilla perfect deflections",
         params: {
           numAgents: 100,
           mutation: 0,
@@ -311,7 +319,8 @@ class ParameterInjector {
         }
       },
       {
-        desc: "SN9",
+        title: "SN9",
+        desc: "No overlap between the agents with deflections",
         params: {
           numAgents: 100,
           mutation: 0,
@@ -335,7 +344,8 @@ class ParameterInjector {
         }
       },
       {
-        desc: "SN10",
+        title: "SN10",
+        desc: "Social distancing with deflections",
         params: {
           numAgents: 100,
           mutation: 0,
@@ -359,7 +369,8 @@ class ParameterInjector {
         }
       },
       {
-        desc: "SN11",
+        title: "SN11",
+        desc: "Social distancing after 20% of the population gets diseased",
         params: {
           numAgents: 100,
           mutation: 0,
@@ -383,7 +394,8 @@ class ParameterInjector {
         }
       },
       {
-        desc: "SN12",
+        title: "SN12",
+        desc: "Social distancing disabled for like-agents (with same state)",
         params: {
           numAgents: 100,
           mutation: 0,
@@ -407,7 +419,8 @@ class ParameterInjector {
         }
       },
       {
-        desc: "SN13",
+        title: "SN13",
+        desc: "3x increase in deflection force",
         params: {
           numAgents: 100,
           mutation: 0,
@@ -431,7 +444,8 @@ class ParameterInjector {
         }
       },
       {
-        desc: "SN14",
+        title: "SN14",
+        desc: "Random deflections",
         params: {
           numAgents: 100,
           mutation: 0,
@@ -455,7 +469,8 @@ class ParameterInjector {
         }
       },
       {
-        desc: "SN15",
+        title: "SN15",
+        desc: "Evolutionary model",
         params: {
           numAgents: 100,
           mutation: 0.1,
