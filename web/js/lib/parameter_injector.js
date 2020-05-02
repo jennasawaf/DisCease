@@ -15,12 +15,12 @@ class ParameterInjector {
         forceOfAttraction: 0.002,  // global force
         diseaseIdentificationProbability: 1,
         contagionRate: 0.25,
-        visualRange: 30,
+        visualRange: 45,
         zombificationRate: 0, //0.0001,
         deathRate: 0.01,  // 0.00005,
         recoveryRate: 0.1,
         recoveryLossRate: 0.01,
-        socialDistanceLength: 10,
+        socialDistanceLength: 0,
         socialDistancingDiseasedTrigger: 0,
         amountOfArtificialSelection: 0.3,
         amountOfOffSprings: 0.8,
@@ -30,7 +30,7 @@ class ParameterInjector {
         perfectDeflections: 1,
       },
       uiParams: {
-        side: 300,
+        side: 500,
         fps: 200,
         boxPadding: 10,
         createGraphs: true,

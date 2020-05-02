@@ -14,7 +14,7 @@ class Agent {
     this.mass = 1;
     this.maxVelocity = 2;
     this.drag = 0.005;
-    this.diameter = 10;
+    this.diameter = 15;
 
     // Internal State Variables:
     this.initState();
