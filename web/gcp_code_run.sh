@@ -4,7 +4,7 @@ set -x
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 cd $DIR
 
-PROJECT_ID="everst-website"
+PROJECT_ID="graphic-jet-278213"
 IMAGE_NAME="discease_web"
 CLOUD_RUN_SERVICE="discease-web"
 
