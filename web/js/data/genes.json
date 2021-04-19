@@ -1,0 +1,11 @@
+[
+  {
+    "id": 1,
+    "deflection": {
+      "diseased": -0.5,
+      "healthy": 0.0,
+      "recovered": 0.5,
+      "zombie": -0.9
+    }
+  }
+]

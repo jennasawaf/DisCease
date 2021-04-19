@@ -4,7 +4,7 @@ set -x
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 cd $DIR
 
-PROJECT_ID="everst-website"
+PROJECT_ID="graphic-jet-278213"
 IMAGE_NAME="discease_web"
 CLOUD_RUN_SERVICE="discease-web"
 
@@ -17,7 +17,7 @@ gcloud beta run deploy $CLOUD_RUN_SERVICE --image=gcr.io/$PROJECT_ID/$IMAGE_NAME
 # gcloud beta run deploy discease-web --image=gcr.io/everst-website/discease_web:v1 --allow-unauthenticated --memory=512Mi --timeout=900 --platform managed
 
 # Set default region:
-# gcloud config set run/region asia-east1
+# gcloud config set run/region us-east4
 
 # [1] asia-east1
 # [2] asia-northeast1

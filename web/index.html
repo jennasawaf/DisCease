@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title></title>
+  <title>DisCease</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -13,40 +13,116 @@
 
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="css/heatmap.css">
 
   <meta name="theme-color" content="#fafafa">
 </head>
 
 <body>
-  <!--[if IE]>
-    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
-  <![endif]-->
+<!--[if IE]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade
+  your browser</a> to improve your experience and security.</p>
+<![endif]-->
 
-  <!-- -------------------------------------------------------------- -->
+<!-- -------------------------------------------------------------- -->
+
+<div class="container">
+
+  <h1>DisCease</h1>
+
+  <div class="row" id="stats">
+    <p id="message_p"></p>
+  </div>
 
 
-  <p>Hello world! This is the first ever page of DisCease.</p>
+  <div id="sketch-holder"></div>
 
-  <script src="js/vendor/p5.js"></script>
-  <script src="js/vendor/ml5.js"></script>
+  <div>
+    <button id="startBtn">Start</button>
+    <button id="pauseBtn">Pause</button>
+    <button id="restartBtn">Restart</button>
+    <button id="updateParamsBtn">Update Params</button>
+  </div>
 
-  <script src="js/main.js"></script>
-  <script src="js/objects/agent.js"></script>
+  <div>
+    Read the <a href="report/DisCease.pdf" target="_blank">project report.</a>
+    Sibling project: <a href="red_blue/index.html" target="_blank">Segregation Model</a>
+  </div>
 
+  <table id="hyper-parameters" class="table">
+    <tr>
+      <th>Param</th>
+      <th>Value</th>
+      <th>Description</th>
+    </tr>
+  </table>
 
-  <!-- ------------------------------------------------------------- -->
+  <table id="gameTypesTable" class="table">
+    <tr><th>Type</th><th>Description</th><th></th></tr>
+  </table>
 
-  <script src="js/vendor/modernizr-3.8.0.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-  <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.4.1.min.js"><\/script>')</script>
-  <script src="js/plugins.js"></script>
+  <div class="row" id="graphs"></div>
 
-  <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
-  <script>
-    window.ga = function () { ga.q.push(arguments) }; ga.q = []; ga.l = +new Date;
-    ga('create', 'UA-XXXXX-Y', 'auto'); ga('set','transport','beacon'); ga('send', 'pageview')
-  </script>
-  <script src="https://www.google-analytics.com/analytics.js" async></script>
+  <table id="episodeStats" class="table-sm table-striped table-bordered statsTable">
+    <tr>
+      <th>Episode</th>
+      <th>Total Diseased</th>
+      <th>Final Diseased</th>
+      <th>Final Recovered</th>
+      <th>Final Healthy</th>
+      <th>Final Survived</th>
+      <th>Mean Score</th>
+    </tr>
+  </table>
+
+  <br/><br/>
+
+  Created by <a href="https://akhilez.com" target="_blank">Akhilez</a><br/><br/>
+
+</div>
+
+<!-- -------------------------------------------------------------- -->
+
+<script src="js/vendor/p5.js"></script>
+<script scr="js/vendor/p5.dom.js"></script>
+<!-- <script src="js/vendor/ml5.js"></script> -->
+<script src="js/vendor/jquery.js"></script>
+<script src="js/vendor/bootstrap.js"></script>
+<script src="js/vendor/chart.min.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/heatmap.js"></script>
+
+<!-- -------------------------------------------------------------- -->
+
+<script src="js/main.js"></script>
+<script src="js/objects/agent.js"></script>
+<script src="js/lib/swarm_manager.js"></script>
+<script src="js/lib/episode_manager.js"></script>
+<script src="js/lib/stats.js"></script>
+<script src="js/lib/ui_manager.js"></script>
+<script src="js/lib/parameter_injector.js"></script>
+
+<script src="js/data/genes.json"></script>
+
+<!-- ------------------------------------------------------------- -->
+
+<script src="js/vendor/modernizr-3.8.0.min.js"></script>
+<script src="js/plugins.js"></script>
+
+<!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
+<script>
+    window.ga = function () {
+        ga.q.push(arguments)
+    };
+    ga.q = [];
+    ga.l = +new Date;
+    ga('create', 'UA-XXXXX-Y', 'auto');
+    ga('set', 'transport', 'beacon');
+    ga('send', 'pageview')
+</script>
+<script src="https://www.google-analytics.com/analytics.js" async></script>
+
 </body>
 
 </html>
